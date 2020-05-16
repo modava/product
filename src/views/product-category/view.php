@@ -2,12 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use modava\product\ProductModule;
 
 /* @var $this yii\web\View */
 /* @var $model modava\product\models\ProductCategory */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('product', 'Product Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -16,11 +17,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('product', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('product', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a(ProductModule::t('product', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a(ProductModule::t('product', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => Yii::t('product', 'Are you sure you want to delete this item?'),
+                'confirm' => ProductModule::t('product', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>

@@ -1,16 +1,17 @@
 <?php
 
+use modava\product\ProductModule;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model modava\product\models\ProductCategory */
 
-$this->title = Yii::t('product', 'Update Product Category: {name}', [
+$this->title = ProductModule::t('product', 'Update Product Category: {name}', [
     'name' => $model->title,
 ]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('product', 'Product Categories'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product Categories'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('product', 'Update');
+$this->params['breadcrumbs'][] = ProductModule::t('product', 'Update');
 ?>
 <div class="product-category-update">
 

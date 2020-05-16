@@ -2,6 +2,7 @@
 
 namespace modava\product\controllers;
 
+use modava\product\ProductModule;
 use Yii;
 use modava\product\models\ProductCategory;
 use modava\product\models\search\ProductCategorySearch;
@@ -122,6 +123,6 @@ class ProductCategoryController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException(Yii::t('product', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(ProductModule::t('product', 'The requested page does not exist.'));
     }
 }

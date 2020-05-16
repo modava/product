@@ -1,5 +1,6 @@
 <?php
 
+use modava\product\ProductModule;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -47,8 +48,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'updated_by') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('product', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(Yii::t('product', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>
+        <?= Html::submitButton(ProductModule::t('product', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(ProductModule::t('product', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
