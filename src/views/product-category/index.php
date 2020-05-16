@@ -3,14 +3,14 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use modava\product\Product as ModuleProduct;
+use modava\product\ProductModule;
 
 /* @var $this yii\web\View */
 /* @var $searchModel modava\product\models\search\ProductCategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->params['breadcrumbs'][] = ['label' => ModuleProduct::t('product', 'Product'), 'url' => ['/product']];
-$this->title = ModuleProduct::t('product', 'Product category');
+$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['/product']];
+$this->title = ProductModule::t('product', 'Product category');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container-fluid px-xxl-25 px-xl-10">
@@ -22,8 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         class="ion ion-md-apps"></span></span><?= Html::encode($this->title) ?>
         </h4>
         <a class="btn btn-outline-light" href="<?= \yii\helpers\Url::to(['create']); ?>"
-           title="<?= ModuleProduct::t('product', 'Create'); ?>">
-            <i class="fa fa-plus"></i> <?= ModuleProduct::t('product', 'Create'); ?></a>
+           title="<?= ProductModule::t('product', 'Create'); ?>">
+            <i class="fa fa-plus"></i> <?= ProductModule::t('product', 'Create'); ?></a>
     </div>
 
     <!-- Row -->
@@ -59,10 +59,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                     </div>
                                 ',
                                     'pager' => [
-                                        'firstPageLabel' => ModuleProduct::t('article', 'First'),
-                                        'lastPageLabel' => ModuleProduct::t('article', 'Last'),
-                                        'prevPageLabel' => ModuleProduct::t('article', 'Previous'),
-                                        'nextPageLabel' => ModuleProduct::t('article', 'Next'),
+                                        'firstPageLabel' => ProductModule::t('product', 'First'),
+                                        'lastPageLabel' => ProductModule::t('product', 'Last'),
+                                        'prevPageLabel' => ProductModule::t('product', 'Previous'),
+                                        'nextPageLabel' => ProductModule::t('product', 'Next'),
                                         'maxButtonCount' => 5,
 
                                         'options' => [
@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'attribute' => 'status',
                                             'value' => function ($model) {
-                                                return Yii::$app->module->params['status'][$model->status];
+                                                return Yii::$app->getModule('product')->params['status'][$model->status];
                                             }
                                         ],
                                         'created_at:date',
@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                         [
                                             'class' => 'yii\grid\ActionColumn',
-                                            'header' => ModuleProduct::t('product', 'Actions'),
+                                            'header' => ProductModule::t('product', 'Actions'),
                                         ],
                                     ],
                                 ]); ?>

@@ -6,13 +6,13 @@
  * Time: 4:42 PM
  */
 
-use modava\product\Product;
+use modava\product\ProductModule;
 
 return [
     'productName' => 'Product',
     'productVersion' => '1.0',
     'status' => [
-        '0' => Product::t('product', 'Tạm ngưng'),
-        '1' => Product::t('product', 'Hiển thị'),
+        '0' => ProductModule::t('product', 'Tạm ngưng'),
+        '1' => ProductModule::t('product', 'Hiển thị'),
     ]
 ];

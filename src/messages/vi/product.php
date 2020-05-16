@@ -20,7 +20,6 @@ return [
     'Updated By' => 'Người cập nhật',
     'Update : {name}' => 'Cập nhật : {name}',
     'Actions' => 'Hành động',
-    'Article type' => 'Thể loại',
     'Update type: {name}' => 'Cập nhật thể loại: {name}',
     'Content' => 'Nội dung',
     'Language' => 'Ngôn ngữ',

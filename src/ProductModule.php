@@ -12,7 +12,7 @@ use yii\web\Controller;
 /**
  * Product module definition class
  */
-class Product extends Module implements BootstrapInterface
+class ProductModule extends Module implements BootstrapInterface
 {
     /**
      * {@inheritdoc}
@@ -30,6 +30,7 @@ class Product extends Module implements BootstrapInterface
         $handler = $this->get('errorHandler');
         Yii::$app->set('errorHandler', $handler);
         $handler->register();
+        $this->layout = 'product';
         $this->registerTranslations();
     }
 
@@ -59,5 +60,4 @@ class Product extends Module implements BootstrapInterface
     {
         return Yii::t('product/messages/' . $category, $message, $params, $language);
     }
-
 }

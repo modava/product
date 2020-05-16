@@ -1,20 +1,37 @@
 <?php
 
 use yii\helpers\Html;
+use modava\product\ProductModule;
 
 /* @var $this yii\web\View */
 /* @var $model modava\product\models\ProductCategory */
 
-$this->title = Yii::t('product', 'Create Product Category');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('product', 'Product Categories'), 'url' => ['index']];
+$this->title = ProductModule::t('product', 'Create');
+$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product category'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-category-create">
+<div class="container-fluid px-xxl-25 px-xl-10">
+    <?= \modava\product\widgets\NavbarWidgets::widget(); ?>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <!-- Title -->
+    <div class="hk-pg-header">
+        <h4 class="hk-pg-title"><span class="pg-title-icon"><span
+                        class="ion ion-md-apps"></span></span><?= Html::encode($this->title) ?>
+        </h4>
+    </div>
+    <!-- /Title -->
 
-    <?= $this->render('_form', [
-        'model' => $model,
-    ]) ?>
+    <!-- Row -->
+    <div class="row">
+        <div class="col-xl-12">
+            <section class="hk-sec-wrapper">
+                <?= $this->render('_form', [
+                    'model' => $model,
+                ]) ?>
+
+            </section>
+        </div>
+    </div>
 
 </div>

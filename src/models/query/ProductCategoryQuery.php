@@ -5,9 +5,9 @@ namespace modava\product\models\query;
 use modava\product\models\ProductCategory;
 
 /**
- * This is the ActiveQuery class for [[ArticleCategory]].
+ * This is the ActiveQuery class for [[ProductCategory]].
  *
- * @see ArticleCategory
+ * @see ProductCategoryQuery
  */
 class ProductCategoryQuery extends \yii\db\ActiveQuery
 {
