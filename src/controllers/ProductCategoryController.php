@@ -38,6 +38,7 @@ class ProductCategoryController extends Controller
     {
         $searchModel = new ProductCategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize = 1;
 
         return $this->render('index', [
             'searchModel' => $searchModel,
