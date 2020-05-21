@@ -1,5 +1,6 @@
 <?php
 
+use modava\product\ProductModule;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -12,17 +13,26 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'product_code')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-8">
+            <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-4">
+            <?= $form->field($model, 'language')->dropDownList(Yii::$app->getModule('product')->params['availableLocales'])->label(ProductModule::t('product', 'Ngôn ngữ')) ?>
+        </div>
+    </div>
 
-    <?= $form->field($model, 'category_id')->textInput() ?>
-
-    <?= $form->field($model, 'type_id')->textInput() ?>
-
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
+    <div class="row">
+        <div class="col-4">
+            <?= $form->field($model, 'product_code')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="col-4">
+            <?= $form->field($model, 'category_id')->textInput() ?>
+        </div>
+        <div class="col-4">
+            <?= $form->field($model, 'type_id')->textInput() ?>
+        </div>
+    </div>
 
     <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
 
@@ -30,29 +40,26 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'so_luong')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->widget(\modava\tiny\TinyMce::class, [
+        'options' => ['rows' => 6],
+    ]) ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'content')->widget(\modava\tiny\TinyMce::class, [
+        'options' => ['rows' => 10],
+        'type' => 'content',
+    ]) ?>
 
-    <?= $form->field($model, 'position')->textInput() ?>
+    <?= \modava\tiny\FileManager::widget([
+        'model' => $model,
+        'attribute' => 'image',
+        'label' => ProductModule::t('product', 'Hình ảnh') . ': 150x150px'
+    ]); ?>
 
-    <?= $form->field($model, 'ads_pixel')->textarea(['rows' => 6]) ?>
+    <?php if (Yii::$app->controller->action->id == 'create')
+        $model->status = 1;
+    ?>
 
-    <?= $form->field($model, 'ads_session')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'views')->textInput() ?>
-
-    <?= $form->field($model, 'language')->dropDownList([ 'vi' => 'Vi', 'en' => 'En', 'jp' => 'Jp', ], ['prompt' => '']) ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
-
-    <?= $form->field($model, 'created_by')->textInput() ?>
-
-    <?= $form->field($model, 'updated_by')->textInput() ?>
+    <?= $form->field($model, 'status')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('product', 'Save'), ['class' => 'btn btn-success']) ?>

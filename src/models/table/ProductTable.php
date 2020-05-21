@@ -2,6 +2,7 @@
 
 namespace modava\product\models\table;
 
+use modava\product\models\query\ProductQuery;
 use Yii;
 
 /**
@@ -38,6 +39,9 @@ use Yii;
  */
 class ProductTable extends \yii\db\ActiveRecord
 {
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DISABLED = 0;
+
     /**
      * {@inheritdoc}
      */
@@ -45,4 +49,10 @@ class ProductTable extends \yii\db\ActiveRecord
     {
         return 'product';
     }
+
+    public static function find()
+    {
+        return new ProductQuery(get_called_class());
+    }
+
 }

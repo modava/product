@@ -5,6 +5,7 @@ namespace modava\product\models;
 use common\helpers\MyHelper;
 use common\models\User;
 use modava\product\models\table\ProductTable;
+use modava\product\ProductModule;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -57,7 +58,7 @@ class Product extends ProductTable
             [['product_code'], 'string', 'max' => 25],
             [['title', 'slug', 'image', 'price', 'price_sale', 'so_luong'], 'string', 'max' => 255],
             [['slug'], 'unique'],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductCategory::class, 'targetAttribute' => ['category_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductType::class, 'targetAttribute' => ['type_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
@@ -70,28 +71,28 @@ class Product extends ProductTable
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('product', 'ID'),
-            'product_code' => Yii::t('product', 'Product Code'),
-            'category_id' => Yii::t('product', 'Category ID'),
-            'type_id' => Yii::t('product', 'Type ID'),
-            'title' => Yii::t('product', 'Title'),
-            'slug' => Yii::t('product', 'Slug'),
-            'image' => Yii::t('product', 'Image'),
-            'price' => Yii::t('product', 'Price'),
-            'price_sale' => Yii::t('product', 'Price Sale'),
-            'so_luong' => Yii::t('product', 'So Luong'),
-            'description' => Yii::t('product', 'Description'),
-            'content' => Yii::t('product', 'Content'),
-            'position' => Yii::t('product', 'Position'),
-            'ads_pixel' => Yii::t('product', 'Ads Pixel'),
-            'ads_session' => Yii::t('product', 'Ads Session'),
-            'status' => Yii::t('product', 'Status'),
-            'views' => Yii::t('product', 'Views'),
-            'language' => Yii::t('product', 'Language'),
-            'created_at' => Yii::t('product', 'Created At'),
-            'updated_at' => Yii::t('product', 'Updated At'),
-            'created_by' => Yii::t('product', 'Created By'),
-            'updated_by' => Yii::t('product', 'Updated By'),
+            'id' => ProductModule::t('product', 'ID'),
+            'product_code' => ProductModule::t('product', 'Product Code'),
+            'category_id' => ProductModule::t('product', 'Category ID'),
+            'type_id' => ProductModule::t('product', 'Type ID'),
+            'title' => ProductModule::t('product', 'Title'),
+            'slug' => ProductModule::t('product', 'Slug'),
+            'image' => ProductModule::t('product', 'Image'),
+            'price' => ProductModule::t('product', 'Price'),
+            'price_sale' => ProductModule::t('product', 'Price Sale'),
+            'so_luong' => ProductModule::t('product', 'So Luong'),
+            'description' => ProductModule::t('product', 'Description'),
+            'content' => ProductModule::t('product', 'Content'),
+            'position' => ProductModule::t('product', 'Position'),
+            'ads_pixel' => ProductModule::t('product', 'Ads Pixel'),
+            'ads_session' => ProductModule::t('product', 'Ads Session'),
+            'status' => ProductModule::t('product', 'Status'),
+            'views' => ProductModule::t('product', 'Views'),
+            'language' => ProductModule::t('product', 'Language'),
+            'created_at' => ProductModule::t('product', 'Created At'),
+            'updated_at' => ProductModule::t('product', 'Updated At'),
+            'created_by' => ProductModule::t('product', 'Created By'),
+            'updated_by' => ProductModule::t('product', 'Updated By'),
         ];
     }
 
@@ -102,17 +103,7 @@ class Product extends ProductTable
      */
     public function getCategory()
     {
-        return $this->hasOne(ProductCategory::className(), ['id' => 'category_id']);
-    }
-
-    /**
-     * Gets query for [[CreatedBy]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCreatedBy()
-    {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
+        return $this->hasOne(ProductCategory::class, ['id' => 'category_id']);
     }
 
     /**
@@ -122,17 +113,27 @@ class Product extends ProductTable
      */
     public function getType()
     {
-        return $this->hasOne(ProductType::className(), ['id' => 'type_id']);
+        return $this->hasOne(ProductType::class, ['id' => 'type_id']);
     }
 
     /**
-     * Gets query for [[CreatedBy0]].
+     * Gets query for [[CreatedBy]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getCreatedBy0()
+    public function getUserCreated()
     {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
+        return $this->hasOne(User::class, ['id' => 'created_by']);
+    }
+
+    /**
+     * Gets query for [[UpdatedBy]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserUpdated()
+    {
+        return $this->hasOne(User::class, ['id' => 'updated_by']);
     }
 
     /**
@@ -140,8 +141,8 @@ class Product extends ProductTable
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProductImages()
+    public function getProductImage()
     {
-        return $this->hasMany(ProductImage::className(), ['product_id' => 'id']);
+        return $this->hasMany(ProductImage::class, ['product_id' => 'id']);
     }
 }
