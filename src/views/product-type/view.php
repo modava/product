@@ -1,15 +1,14 @@
 <?php
 
+use modava\product\ProductModule;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-use modava\product\ProductModule;
 
 /* @var $this yii\web\View */
-/* @var $model modava\product\models\ProductCategory */
+/* @var $model modava\product\models\ProductType */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['/product']];
-$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product category'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product Types'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -41,14 +40,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-xl-12">
             <section class="hk-sec-wrapper">
-
                 <?= DetailView::widget([
                     'model' => $model,
                     'attributes' => [
                         'id',
                         'title',
                         'slug',
-                        'parent_id',
                         'image',
                         'description:html',
                         'position',
@@ -78,6 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ],
                 ]) ?>
+
             </section>
         </div>
     </div>

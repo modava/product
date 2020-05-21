@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m200515_161156_create_table_product_category
+ * Class m200521_090122_create_table_product_type
  */
-class m200515_161156_create_table_product_category extends Migration
+class m200521_090122_create_table_product_type extends Migration
 {
     /**
      * {@inheritdoc}
@@ -17,11 +17,10 @@ class m200515_161156_create_table_product_category extends Migration
             $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('{{%product_category}}', [
+        $this->createTable('{{%product_type}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string(255)->notNull(),
             'slug' => $this->string(255)->notNull()->unique(),
-            'parent_id' => $this->integer(11)->null(),
             'image' => $this->string(255)->null(),
             'description' => $this->string()->null(),
             'position' => $this->integer(11)->null(),
@@ -34,11 +33,12 @@ class m200515_161156_create_table_product_category extends Migration
             'updated_by' => $this->integer(11)->null(),
         ], $tableOptions);
 
-        $this->addColumn('article_category', 'language', "ENUM('vi', 'en', 'jp') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'vi' COMMENT 'Language' AFTER `status`");
-        $this->createIndex('index-slug', 'product_category', 'slug');
-        $this->createIndex('index-language', 'product_category', 'language');
-        $this->addForeignKey('fk_product_category_created_by_user', 'product_category', 'created_by', 'user', 'id', 'RESTRICT', 'CASCADE');
-        $this->addForeignKey('fk_product_category_updated_by_user', 'product_category', 'updated_by', 'user', 'id', 'RESTRICT', 'CASCADE');
+        $this->addColumn('product_type', 'language', "ENUM('vi', 'en', 'jp') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'vi' COMMENT 'Language' AFTER `status`");
+        $this->createIndex('index-slug', 'product_type', 'slug');
+        $this->createIndex('index-language', 'product_type', 'language');
+        $this->addForeignKey('fk_product_created_by_type_user', 'product_type', 'created_by', 'user', 'id', 'RESTRICT', 'CASCADE');
+        $this->addForeignKey('fk_product_updated_by_type_user', 'product_type', 'updated_by', 'user', 'id', 'RESTRICT', 'CASCADE');
+
     }
 
     /**
@@ -46,7 +46,6 @@ class m200515_161156_create_table_product_category extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%product_category}}');
+        $this->dropTable('{{%product_type}}');
     }
-
 }

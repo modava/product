@@ -1,15 +1,15 @@
 <?php
 
+use modava\product\ProductModule;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use modava\product\ProductModule;
 
 /* @var $this yii\web\View */
-/* @var $model modava\product\models\ProductCategory */
+/* @var $model modava\product\models\ProductType */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="product-category-form">
+<div class="product-type-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -23,7 +23,7 @@ use modava\product\ProductModule;
     </div>
 
     <?= $form->field($model, 'description')->widget(\modava\tiny\TinyMce::class, [
-        'options' => ['rows' => 6],
+        'options' => ['rows' => 6]
     ]) ?>
 
     <?= \modava\tiny\FileManager::widget([
@@ -37,7 +37,6 @@ use modava\product\ProductModule;
     ?>
 
     <?= $form->field($model, 'status')->checkbox() ?>
-
 
     <div class="form-group">
         <?= Html::submitButton(ProductModule::t('product', 'Save'), ['class' => 'btn btn-success']) ?>

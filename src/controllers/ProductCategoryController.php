@@ -2,18 +2,18 @@
 
 namespace modava\product\controllers;
 
+use modava\product\components\MyProductController;
 use modava\product\ProductModule;
 use Yii;
 use modava\product\models\ProductCategory;
 use modava\product\models\search\ProductCategorySearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * ProductCategoryController implements the CRUD actions for ProductCategory model.
  */
-class ProductCategoryController extends Controller
+class ProductCategoryController extends MyProductController
 {
     /**
      * {@inheritdoc}
@@ -22,7 +22,7 @@ class ProductCategoryController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -38,7 +38,7 @@ class ProductCategoryController extends Controller
     {
         $searchModel = new ProductCategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $dataProvider->pagination->pageSize = 1;
+//        $dataProvider->pagination->pageSize = 1;
 
         return $this->render('index', [
             'searchModel' => $searchModel,

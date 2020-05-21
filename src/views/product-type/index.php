@@ -1,16 +1,16 @@
 <?php
 
+use modava\product\ProductModule;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use modava\product\ProductModule;
 
 /* @var $this yii\web\View */
-/* @var $searchModel modava\product\models\search\ProductCategorySearch */
+/* @var $searchModel modava\product\models\search\ProductTypeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$this->title = ProductModule::t('product', 'Product type');
 $this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['/product']];
-$this->title = ProductModule::t('product', 'Product category');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container-fluid px-xxl-25 px-xl-10">
@@ -92,11 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         ],
 
                                         'title',
-//                                        'image',
                                         'description:html',
-                                        //'position',
-                                        //'ads_pixel:ntext',
-                                        //'ads_session:ntext',
                                         [
                                             'attribute' => 'language',
                                             'value' => function ($model) {

@@ -1,15 +1,18 @@
 <?php
 
-use yii\helpers\Html;
 use modava\product\ProductModule;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model modava\product\models\ProductCategory */
+/* @var $model modava\product\models\ProductType */
 
-$this->title = ProductModule::t('product', 'Create');
+$this->title = ProductModule::t('product', 'Update: {name}', [
+    'name' => $model->title,
+]);
 $this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['/product']];
-$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product category'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product type'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ProductModule::t('product', 'Update');
 ?>
 <div class="container-fluid px-xxl-25 px-xl-10">
     <?= \modava\product\widgets\NavbarWidgets::widget(); ?>
@@ -19,6 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <h4 class="hk-pg-title"><span class="pg-title-icon"><span
                         class="ion ion-md-apps"></span></span><?= Html::encode($this->title) ?>
         </h4>
+        <a class="btn btn-outline-light" href="<?= \yii\helpers\Url::to(['create']); ?>"
+           title="<?= ProductModule::t('product', 'Create'); ?>">
+            <i class="fa fa-plus"></i> <?= ProductModule::t('product', 'Create'); ?></a>
     </div>
     <!-- /Title -->
 
@@ -29,9 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $this->render('_form', [
                     'model' => $model,
                 ]) ?>
-
             </section>
         </div>
     </div>
-
 </div>

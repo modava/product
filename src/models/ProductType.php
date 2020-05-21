@@ -4,17 +4,15 @@ namespace modava\product\models;
 
 use common\helpers\MyHelper;
 use common\models\User;
-use modava\product\models\table\ProductCategoryTable;
-use Yii;
+use modava\product\models\table\ProductTypeTable;
 use modava\product\ProductModule;
+use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\db\ActiveRecord;
 
-
-class ProductCategory extends ProductCategoryTable
+class ProductType extends ProductTypeTable
 {
-
     public function behaviors()
     {
 
@@ -52,7 +50,7 @@ class ProductCategory extends ProductCategoryTable
     {
         return [
             [['title'], 'required'],
-            [['parent_id', 'position', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['position', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['ads_pixel', 'ads_session', 'language'], 'string'],
             [['title', 'slug', 'image', 'description'], 'string', 'max' => 255],
             ['language', 'in', 'range' => ['vi', 'en', 'jp'], 'strict' => false],
@@ -71,7 +69,6 @@ class ProductCategory extends ProductCategoryTable
             'id' => ProductModule::t('product', 'ID'),
             'title' => ProductModule::t('product', 'Title'),
             'slug' => ProductModule::t('product', 'Slug'),
-            'parent_id' => ProductModule::t('product', 'Parent ID'),
             'image' => ProductModule::t('product', 'Image'),
             'description' => ProductModule::t('product', 'Description'),
             'position' => ProductModule::t('product', 'Position'),

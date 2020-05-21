@@ -1,14 +1,14 @@
 <?php
 
-use yii\helpers\Html;
 use modava\product\ProductModule;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model modava\product\models\ProductCategory */
+/* @var $model modava\product\models\ProductType */
 
 $this->title = ProductModule::t('product', 'Create');
 $this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['/product']];
-$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product category'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product type'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container-fluid px-xxl-25 px-xl-10">
@@ -29,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $this->render('_form', [
                     'model' => $model,
                 ]) ?>
-
             </section>
         </div>
     </div>

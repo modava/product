@@ -23,4 +23,9 @@ use modava\product\ProductModule;
            href="<?= Url::toRoute(['/product/product-type']); ?>"><i
                     class="ion ion-md-transgender"></i><?= ProductModule::t('product', 'Product type'); ?></a>
     </li>
+    <li class="nav-item mb-5">
+        <a class="nav-link link-icon-left<?php if (Yii::$app->controller->id == 'product-image') echo ' active' ?>"
+           href="<?= Url::toRoute(['/product/product-image']); ?>"><i
+                    class="ion ion-md-images"></i><?= ProductModule::t('product', 'Product image'); ?></a>
+    </li>
 </ul>
