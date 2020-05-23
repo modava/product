@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Produc
 $this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product category'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+\backend\widgets\ToastrWidget::widget(['key' => 'toastr-' . $model->toastr_key . '-view'])
 ?>
 <div class="container-fluid px-xxl-25 px-xl-10">
     <?= \modava\product\widgets\NavbarWidgets::widget(); ?>

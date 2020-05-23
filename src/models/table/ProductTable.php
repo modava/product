@@ -20,6 +20,7 @@ use Yii;
  * @property string|null $so_luong
  * @property string|null $description
  * @property string|null $content
+ * @property string|null $product_tech
  * @property int|null $position
  * @property string|null $ads_pixel
  * @property string|null $ads_session
@@ -31,11 +32,6 @@ use Yii;
  * @property int|null $created_by
  * @property int|null $updated_by
  *
- * @property ProductCategory $category
- * @property User $createdBy
- * @property ProductType $type
- * @property User $createdBy0
- * @property ProductImage[] $productImages
  */
 class ProductTable extends \yii\db\ActiveRecord
 {

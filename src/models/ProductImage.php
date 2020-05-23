@@ -2,7 +2,9 @@
 
 namespace modava\product\models;
 
+use common\models\User;
 use Yii;
+use modava\product\models\table\ProductImageTable;
 
 /**
  * This is the model class for table "product_image".
@@ -20,15 +22,9 @@ use Yii;
  * @property Product $product
  * @property User $updatedBy
  */
-class ProductImage extends \yii\db\ActiveRecord
+class ProductImage extends ProductImageTable
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'product_image';
-    }
+    public $toastr_key = 'product-image';
 
     /**
      * {@inheritdoc}
@@ -36,12 +32,12 @@ class ProductImage extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'image_url', 'created_at', 'updated_at'], 'required'],
+            [['product_id', 'image_url'], 'required'],
             [['product_id', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['image_url'], 'string', 'max' => 255],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
-            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
+            [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
+            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
 
@@ -69,7 +65,7 @@ class ProductImage extends \yii\db\ActiveRecord
      */
     public function getCreatedBy()
     {
-        return $this->hasOne(User::className(), ['id' => 'created_by']);
+        return $this->hasOne(User::class, ['id' => 'created_by']);
     }
 
     /**
@@ -79,7 +75,7 @@ class ProductImage extends \yii\db\ActiveRecord
      */
     public function getProduct()
     {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+        return $this->hasOne(Product::class, ['id' => 'product_id']);
     }
 
     /**
@@ -89,6 +85,6 @@ class ProductImage extends \yii\db\ActiveRecord
      */
     public function getUpdatedBy()
     {
-        return $this->hasOne(User::className(), ['id' => 'updated_by']);
+        return $this->hasOne(User::class, ['id' => 'updated_by']);
     }
 }

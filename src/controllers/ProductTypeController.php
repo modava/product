@@ -7,6 +7,7 @@ use Yii;
 use modava\product\models\ProductType;
 use modava\product\models\search\ProductTypeSearch;
 use modava\product\components\MyProductController;
+use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -67,9 +68,25 @@ class ProductTypeController extends MyProductController
     public function actionCreate()
     {
         $model = new ProductType();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('toastr-product-type-view', [
+                    'title' => 'Thông báo',
+                    'text' => 'Tạo mới thành công',
+                    'type' => 'success'
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $errors = '';
+                foreach ($model->getErrors() as $error) {
+                    $errors .= Html::tag('p', $error[0]);
+                }
+                Yii::$app->session->setFlash('toastr-product-type-form', [
+                    'title' => 'Cập nhật thất bại',
+                    'text' => $errors,
+                    'type' => 'warning'
+                ]);
+            }
         }
 
         return $this->render('create', [
@@ -87,9 +104,25 @@ class ProductTypeController extends MyProductController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('toastr-product-type-view', [
+                    'title' => 'Thông báo',
+                    'text' => 'Cập nhật thành công',
+                    'type' => 'success'
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $errors = '';
+                foreach ($model->getErrors() as $error) {
+                    $errors .= Html::tag('p', $error[0]);
+                }
+                Yii::$app->session->setFlash('toastr-product-type-form', [
+                    'title' => 'Cập nhật thất bại',
+                    'text' => $errors,
+                    'type' => 'warning'
+                ]);
+            }
         }
 
         return $this->render('update', [
@@ -106,8 +139,24 @@ class ProductTypeController extends MyProductController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        if ($model->delete()) {
+            Yii::$app->session->setFlash('toastr-product-type-index', [
+                'title' => 'Thông báo',
+                'text' => 'Xóa thành công',
+                'type' => 'success'
+            ]);
+        } else {
+            $errors = '';
+            foreach ($model->getErrors() as $error) {
+                $errors .= Html::tag('p', $error[0]);
+            }
+            Yii::$app->session->setFlash('toastr-product-type-index', [
+                'title' => 'Xóa thất bại',
+                'text' => $errors,
+                'type' => 'warning'
+            ]);
+        }
         return $this->redirect(['index']);
     }
 

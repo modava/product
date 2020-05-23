@@ -12,6 +12,7 @@ use yii\widgets\Pjax;
 $this->title = ProductModule::t('product', 'Product type');
 $this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['/product']];
 $this->params['breadcrumbs'][] = $this->title;
+\backend\widgets\ToastrWidget::widget(['key' => 'toastr-' . $searchModel->toastr_key . '-index']);
 ?>
 <div class="container-fluid px-xxl-25 px-xl-10">
     <?= \modava\product\widgets\NavbarWidgets::widget(); ?>

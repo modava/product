@@ -2,13 +2,22 @@
 
 namespace modava\product\controllers;
 
+use modava\article\models\table\ActicleCategoryTable;
+use modava\article\models\table\ArticleTypeTable;
+use modava\product\components\MyUpload;
+use modava\product\models\table\ProductCategoryTable;
+use modava\product\models\table\ProductTable;
+use modava\product\models\table\ProductTypeTable;
 use modava\product\ProductModule;
 use Yii;
 use modava\product\models\Product;
 use modava\product\models\search\ProductSearch;
 use modava\product\components\MyProductController;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -67,8 +76,33 @@ class ProductController extends MyProductController
     {
         $model = new Product();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate() && $model->save()) {
+                if ($model->image != "") {
+                    $pathImage = FRONTEND_HOST_INFO . $model->image;
+                    $pathSave = Yii::getAlias('@frontend/web/uploads/product/');
+                    $pathUpload = MyUpload::upload(200, 200, $pathImage, $pathSave);
+                    $model->image = explode('frontend/web', $pathUpload)[1];
+                } else {
+                    $model->image = NOIMAGE;
+                }
+                $model->updateAttributes(['image']);
+                Yii::$app->session->setFlash('toastr-product-view', [
+                    'text' => 'Tạo mới thành công',
+                    'type' => 'success'
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                $errors = '';
+                foreach ($model->getErrors() as $error) {
+                    $errors .= Html::tag('p', $error[0]);
+                }
+                Yii::$app->session->setFlash('toastr-product-form', [
+                    'title' => 'Cập nhật thất bại',
+                    'text' => $errors,
+                    'type' => 'warning'
+                ]);
+            }
         }
 
         return $this->render('create', [
@@ -87,8 +121,32 @@ class ProductController extends MyProductController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                if ($model->getAttribute('image') != $model->getOldAttribute('image')) {
+                    $pathImage = FRONTEND_HOST_INFO . $model->image;
+                    $pathSave = Yii::getAlias('@frontend/web/uploads/product/');
+                    $pathUpload = MyUpload::upload(200, 200, $pathImage, $pathSave);
+                    $model->image = explode('frontend/web', $pathUpload)[1];
+                }
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('toastr-product-view', [
+                        'text' => 'Cập nhật thành công',
+                        'type' => 'success'
+                    ]);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            } else {
+                $errors = '';
+                foreach ($model->getErrors() as $error) {
+                    $errors .= Html::tag('p', $error[0]);
+                }
+                Yii::$app->session->setFlash('toastr-product-form', [
+                    'title' => 'Cập nhật thất bại',
+                    'text' => $errors,
+                    'type' => 'warning'
+                ]);
+            }
         }
 
         return $this->render('update', [
@@ -124,5 +182,17 @@ class ProductController extends MyProductController
         }
 
         throw new NotFoundHttpException(ProductModule::t('product', 'The requested page does not exist.'));
+    }
+
+    public function actionLoadCategoriesByLang($lang = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ArrayHelper::map(ProductCategoryTable::getAllProductCategory($lang), 'id', 'title');
+    }
+
+    public function actionLoadTypesByLang($lang = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return ArrayHelper::map(ProductTypeTable::getAllProductType($lang), 'id', 'title');
     }
 }

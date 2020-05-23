@@ -12,6 +12,7 @@ use modava\product\ProductModule;
 $this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['/product']];
 $this->title = ProductModule::t('product', 'Product category');
 $this->params['breadcrumbs'][] = $this->title;
+\backend\widgets\ToastrWidget::widget(['key' => 'toastr-' . $searchModel->toastr_key . '-index']);
 ?>
 <div class="container-fluid px-xxl-25 px-xl-10">
     <?= \modava\product\widgets\NavbarWidgets::widget(); ?>

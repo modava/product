@@ -29,4 +29,9 @@ return [
     'Last' => 'Cuối',
     'Previous' => 'Trước',
     'Next' => 'Tiếp',
+    'Product Code' => 'Mã sản phẩm',
+    'Price' => 'Giá',
+    'Price Sale' => 'Khuyến mại',
+    'Quantity' => 'Số lượng',
+    'Product tech' => 'Thuộc tính sản phẩm',
 ];

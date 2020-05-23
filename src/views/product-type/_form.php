@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model modava\product\models\ProductType */
 /* @var $form yii\widgets\ActiveForm */
+\backend\widgets\ToastrWidget::widget(['key' => 'toastr-' . $model->toastr_key . '-form']);
 ?>
 
 <div class="product-type-form">

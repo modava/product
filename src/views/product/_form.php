@@ -2,69 +2,155 @@
 
 use modava\product\ProductModule;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use modava\product\models\table\ProductCategoryTable;
+use yii\helpers\ArrayHelper;
+use modava\product\models\table\ProductTypeTable;
+use unclead\multipleinput\MultipleInput;
 
 /* @var $this yii\web\View */
 /* @var $model modava\product\models\Product */
 /* @var $form yii\widgets\ActiveForm */
+\backend\widgets\ToastrWidget::widget(['key' => 'toastr-' . $model->toastr_key . '-form']);
+if ($model->language == null) $model->language = Yii::$app->language;
 ?>
 
-<div class="product-form">
+    <div class="product-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+        <?php $form = ActiveForm::begin(); ?>
 
-    <div class="row">
-        <div class="col-8">
-            <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+        <div class="row">
+            <div class="col-8">
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-4">
+                <?= $form->field($model, 'language')->dropDownList(Yii::$app->getModule('product')->params['availableLocales'])->label(ProductModule::t('product', 'Ngôn ngữ')) ?>
+            </div>
         </div>
-        <div class="col-4">
-            <?= $form->field($model, 'language')->dropDownList(Yii::$app->getModule('product')->params['availableLocales'])->label(ProductModule::t('product', 'Ngôn ngữ')) ?>
+
+        <div class="row">
+            <div class="col-4">
+                <?= $form->field($model, 'product_code')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-4">
+                <?= $form->field($model, 'category_id')
+                    ->dropDownList(ArrayHelper::map(ProductCategoryTable::getAllProductCategory($model->language), 'id', 'title'), ['prompt' => 'Chọn danh mục...'])->label('Danh mục sản phẩm') ?>
+            </div>
+            <div class="col-4">
+                <?= $form->field($model, 'type_id')->dropDownList(ArrayHelper::map(ProductTypeTable::getAllProductType($model->language), 'id', 'title'), ['prompt' => 'Chọn loại...'])->label('Loại sản phẩm') ?>
+            </div>
         </div>
+
+        <div class="row">
+            <div class="col-4">
+                <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-4">
+                <?= $form->field($model, 'price_sale')->textInput(['maxlength' => true]) ?>
+            </div>
+            <div class="col-4">
+                <?= $form->field($model, 'so_luong')->textInput(['maxlength' => true]) ?>
+            </div>
+        </div>
+
+
+        <?= $form->field($model, 'description')->widget(\modava\tiny\TinyMce::class, [
+            'options' => ['rows' => 6],
+        ]) ?>
+
+        <?= $form->field($model, 'content')->widget(\modava\tiny\TinyMce::class, [
+            'options' => ['rows' => 10],
+            'type' => 'content',
+        ]) ?>
+        <div class="row">
+            <div class="col-8">
+                <?= $form->field($model, 'product_tech')->widget(MultipleInput::class, [
+                    'max' => 6,
+                    'allowEmptyList' => true,
+                    'columns' => [
+                        [
+                            'name' => 'product_tech',
+                            'type' => 'dropDownList',
+                            'title' => ProductModule::t('product', 'Thuộc tính sản phẩm'),
+                            'defaultValue' => 1,
+                            'items' => Yii::$app->getModule('product')->params['product_tech'],
+                        ],
+                        [
+                            'name' => 'value',
+                            'title' => ProductModule::t('product', 'Giá trị'),
+                            'enableError' => true,
+                            'options' => [
+                                'class' => 'input-priority'
+                            ]
+                        ]
+                    ]
+                ])->label(false);
+                ?>
+            </div>
+            <div class="col-4">
+                <?= \modava\tiny\FileManager::widget([
+                    'model' => $model,
+                    'attribute' => 'image',
+                    'label' => ProductModule::t('product', 'Hình ảnh') . ': 150x150px'
+                ]); ?>
+            </div>
+        </div>
+
+        <?php if (Yii::$app->controller->action->id == 'create')
+            $model->status = 1;
+        ?>
+
+        <?= $form->field($model, 'status')->checkbox() ?>
+
+        <div class="form-group">
+            <?= Html::submitButton(Yii::t('product', 'Save'), ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+
     </div>
 
-    <div class="row">
-        <div class="col-4">
-            <?= $form->field($model, 'product_code')->textInput(['maxlength' => true]) ?>
-        </div>
-        <div class="col-4">
-            <?= $form->field($model, 'category_id')->textInput() ?>
-        </div>
-        <div class="col-4">
-            <?= $form->field($model, 'type_id')->textInput() ?>
-        </div>
-    </div>
-
-    <?= $form->field($model, 'price')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'price_sale')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'so_luong')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'description')->widget(\modava\tiny\TinyMce::class, [
-        'options' => ['rows' => 6],
-    ]) ?>
-
-    <?= $form->field($model, 'content')->widget(\modava\tiny\TinyMce::class, [
-        'options' => ['rows' => 10],
-        'type' => 'content',
-    ]) ?>
-
-    <?= \modava\tiny\FileManager::widget([
-        'model' => $model,
-        'attribute' => 'image',
-        'label' => ProductModule::t('product', 'Hình ảnh') . ': 150x150px'
-    ]); ?>
-
-    <?php if (Yii::$app->controller->action->id == 'create')
-        $model->status = 1;
-    ?>
-
-    <?= $form->field($model, 'status')->checkbox() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton(Yii::t('product', 'Save'), ['class' => 'btn btn-success']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
-
-</div>
+<?php
+$urlLoadCategories = Url::toRoute(['load-categories-by-lang']);
+$urlLoadTypes = Url::toRoute(['load-types-by-lang']);
+$script = <<< JS
+function loadDataByLang(url, lang){
+    return new Promise((resolve) => {
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'json',
+            data: {
+                lang: lang
+            }
+        }).done(res => {
+            resolve(res);
+        }).fail(f => {
+            resolve(null);
+        });
+    });
+}
+$('body').on('change', '#product-language', async function(){
+    var v = $(this).val(),
+        categories, types;
+    $('#product-category_id, #product-type_id').find('option[value!=""]').remove();
+    await loadDataByLang('$urlLoadCategories', v).then(res => categories = res);
+    await loadDataByLang('$urlLoadTypes', v).then(res => types = res);
+    if(typeof categories === "string"){
+        $('#product-category_id').append(categories);
+    } else if(typeof categories === "object"){
+        Object.keys(categories).forEach(function(k){
+            $('#product-category_id').append('<option value="'+ k +'">'+ categories[k] +'</option>');
+        });
+    }
+    if(typeof types === "string"){
+        $('#product-type_id').append(types);
+    } else if(typeof types === "object"){
+        Object.keys(types).forEach(function(k){
+            $('#product-type_id').append('<option value="'+ k +'">'+ types[k] +'</option>');
+        });
+    }
+});
+JS;
+$this->registerJs($script, \yii\web\View::POS_END);
