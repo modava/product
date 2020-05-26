@@ -27,5 +27,5 @@ return [
         'Bước cột' => 'Bước cột',
         'Quy cách trụ/ cột' => 'Quy cách trụ/ cột',
         'Hoàn thiện' => 'Hoàn thiện',
-    ]
+    ],
 ];

@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'image',
                             'format' => 'html',
                             'value' => function ($model) {
-                                return Html::img($model->image, ['width' => 150, 'height' => 150]);
+                                return Html::img(Yii::$app->params['product-size']['150x150']['folder'] . $model->image, ['width' => 150, 'height' => 150]);
                             }
                         ],
                         [
