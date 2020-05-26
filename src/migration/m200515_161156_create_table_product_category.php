@@ -34,7 +34,7 @@ class m200515_161156_create_table_product_category extends Migration
             'updated_by' => $this->integer(11)->null(),
         ], $tableOptions);
 
-        $this->addColumn('article_category', 'language', "ENUM('vi', 'en', 'jp') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'vi' COMMENT 'Language' AFTER `status`");
+        $this->addColumn('product_category', 'language', "ENUM('vi', 'en', 'jp') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'vi' COMMENT 'Language' AFTER `status`");
         $this->createIndex('index-slug', 'product_category', 'slug');
         $this->createIndex('index-language', 'product_category', 'language');
         $this->addForeignKey('fk_product_category_created_by_user', 'product_category', 'created_by', 'user', 'id', 'RESTRICT', 'CASCADE');
