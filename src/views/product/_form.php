@@ -90,15 +90,15 @@ if ($model->language == null) $model->language = Yii::$app->language;
             </div>
             <div class="col-4">
                 <?php
-                if (Yii::$app->controller->action->id == 'create')
-                    $img = NOIMAGE;
+                if (empty($model->getErrors()))
+                    $path = Yii::$app->params['product']['150x150']['folder'];
                 else
-                    $img = $model->image;
+                    $path = null;
                 echo \modava\tiny\FileManager::widget([
                     'model' => $model,
                     'attribute' => 'image',
-                    'path' => Yii::$app->params['product-size']['150x150']['folder'] . $img,
-                    'label' => ProductModule::t('product', 'Hình ảnh') . ': 150x150px'
+                    'path' => $path,
+                    'label' => ProductModule::t('product', 'Hình ảnh') . ': ' . Yii::$app->params['product-size'],
                 ]); ?>
             </div>
         </div>
@@ -110,7 +110,7 @@ if ($model->language == null) $model->language = Yii::$app->language;
         <?= $form->field($model, 'status')->checkbox() ?>
 
         <div class="form-group">
-            <?= Html::submitButton(Yii::t('product', 'Save'), ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton(ProductModule::t('product', 'Save'), ['class' => 'btn btn-success']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

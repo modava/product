@@ -77,29 +77,31 @@ class ProductController extends MyProductController
         $model = new Product();
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->validate() && $model->save()) {
-                if ($model->image != "") {
-                    $pathImage = FRONTEND_HOST_INFO . $model->image;
-                    $path = Yii::getAlias('@frontend/web/uploads/product/');
-                    $imageName = null;
-                    foreach (Yii::$app->params['product-size'] as $key => $value) {
-                        $pathSave = $path . $key;
-                        if (!file_exists($pathSave) && !is_dir($pathSave)) {
-                            mkdir($pathSave);
+            if ($model->validate()) {
+                if ($model->save()) {
+                    if ($model->image != "") {
+                        $pathImage = FRONTEND_HOST_INFO . $model->image;
+                        $path = Yii::getAlias('@frontend/web/uploads/product/');
+                        $imageName = null;
+                        foreach (Yii::$app->params['product'] as $key => $value) {
+                            $pathSave = $path . $key;
+                            if (!file_exists($pathSave) && !is_dir($pathSave)) {
+                                mkdir($pathSave);
+                            }
+                            $imageName = MyUpload::uploadFromOnline($value['width'], $value['height'], $pathImage, $pathSave . '/', $imageName);
                         }
-                        $imageName = MyUpload::uploadFromOnline($value['width'], $value['height'], $pathImage, $pathSave . '/', $imageName);
-                    }
 
-                } else {
-                    $imageName = NOIMAGE;
+                    } else {
+                        $imageName = NOIMAGE;
+                    }
+                    $model->image = $imageName;
+                    $model->updateAttributes(['image']);
+                    Yii::$app->session->setFlash('toastr-product-view', [
+                        'text' => 'Tạo mới thành công',
+                        'type' => 'success'
+                    ]);
+                    return $this->redirect(['view', 'id' => $model->id]);
                 }
-                $model->image = $imageName;
-                $model->updateAttributes(['image']);
-                Yii::$app->session->setFlash('toastr-product-view', [
-                    'text' => 'Tạo mới thành công',
-                    'type' => 'success'
-                ]);
-                return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 $errors = '';
                 foreach ($model->getErrors() as $error) {
@@ -131,20 +133,39 @@ class ProductController extends MyProductController
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
-                if ($model->getAttribute('image') != $model->getOldAttribute('image')) {
-                    $pathImage = FRONTEND_HOST_INFO . $model->image;
-                    $path = Yii::getAlias('@frontend/web/uploads/product/');
-                    $imageName = null;
-                    foreach (Yii::$app->params['product-size'] as $key => $value) {
-                        $pathSave = $path . $key;
-                        if (!file_exists($pathSave) && !is_dir($pathSave)) {
-                            mkdir($pathSave);
-                        }
-                        $imageName = MyUpload::uploadFromOnline($value['width'], $value['height'], $pathImage, $pathSave . '/', $imageName);
-                    }
-                    $model->image = $imageName;
-                }
+                $oldImage = $model->getOldAttribute('image');
                 if ($model->save()) {
+                    if ($model->getAttribute('image') !== $oldImage) {
+                        if ($model->getAttribute('image') == '') {
+                            $model->image = 'no-image.png';
+                            $model->updateAttributes(['image']);
+                        } else {
+                            $pathImage = FRONTEND_HOST_INFO . $model->image;
+                            $path = Yii::getAlias('@frontend/web/uploads/product/');
+                            $imageName = null;
+                            foreach (Yii::$app->params['product'] as $key => $value) {
+                                $pathSave = $path . $key;
+                                if (!file_exists($pathSave) && !is_dir($pathSave)) {
+                                    mkdir($pathSave);
+                                }
+                                $resultName = MyUpload::uploadFromOnline($value['width'], $value['height'], $pathImage, $pathSave . '/', $imageName);
+                                if ($imageName == null) {
+                                    $imageName = $resultName;
+                                }
+                            }
+
+                            $model->image = $imageName;
+                            if ($model->updateAttributes(['image'])) {
+                                foreach (Yii::$app->params['product'] as $key => $value) {
+                                    $pathSave = $path . $key;
+                                    if (file_exists($pathSave . '/' . $oldImage) && $oldImage != null) {
+                                        unlink($pathSave . '/' . $oldImage);
+                                    }
+
+                                }
+                            }
+                        }
+                    }
                     Yii::$app->session->setFlash('toastr-product-view', [
                         'text' => 'Cập nhật thành công',
                         'type' => 'success'
@@ -178,8 +199,24 @@ class ProductController extends MyProductController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        if ($model->delete()) {
+            Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                'title' => 'Thông báo',
+                'text' => 'Xoá thành công',
+                'type' => 'success'
+            ]);
+        } else {
+            $errors = Html::tag('p', 'Xoá thất bại');
+            foreach ($model->getErrors() as $error) {
+                $errors .= Html::tag('p', $error[0]);
+            }
+            Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                'title' => 'Thông báo',
+                'text' => $errors,
+                'type' => 'warning'
+            ]);
+        }
         return $this->redirect(['index']);
     }
 

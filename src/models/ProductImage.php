@@ -3,6 +3,7 @@
 namespace modava\product\models;
 
 use common\models\User;
+use modava\product\ProductModule;
 use Yii;
 use modava\product\models\table\ProductImageTable;
 
@@ -47,14 +48,14 @@ class ProductImage extends ProductImageTable
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('product', 'ID'),
-            'product_id' => Yii::t('product', 'Product ID'),
-            'image_url' => Yii::t('product', 'Image Url'),
-            'status' => Yii::t('product', 'Status'),
-            'created_at' => Yii::t('product', 'Created At'),
-            'updated_at' => Yii::t('product', 'Updated At'),
-            'created_by' => Yii::t('product', 'Created By'),
-            'updated_by' => Yii::t('product', 'Updated By'),
+            'id' => ProductModule::t('product', 'ID'),
+            'product_id' => ProductModule::t('product', 'Product ID'),
+            'image_url' => ProductModule::t('product', 'Image Url'),
+            'status' => ProductModule::t('product', 'Status'),
+            'created_at' => ProductModule::t('product', 'Created At'),
+            'updated_at' => ProductModule::t('product', 'Updated At'),
+            'created_by' => ProductModule::t('product', 'Created By'),
+            'updated_by' => ProductModule::t('product', 'Updated By'),
         ];
     }
 
