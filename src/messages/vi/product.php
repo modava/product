@@ -29,7 +29,7 @@ return [
     'Last' => 'Cuối',
     'Previous' => 'Trước',
     'Next' => 'Tiếp',
-    'Product Code' => 'Mã sản phẩm',
+    'Product Code' => 'Mã',
     'Price' => 'Giá',
     'Price Sale' => 'Khuyến mại',
     'Quantity' => 'Số lượng',

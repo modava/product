@@ -89,9 +89,15 @@ if ($model->language == null) $model->language = Yii::$app->language;
                 ?>
             </div>
             <div class="col-4">
-                <?= \modava\tiny\FileManager::widget([
+                <?php
+                if (Yii::$app->controller->action->id == 'create')
+                    $img = NOIMAGE;
+                else
+                    $img = $model->image;
+                echo \modava\tiny\FileManager::widget([
                     'model' => $model,
                     'attribute' => 'image',
+                    'path' => Yii::$app->params['product-size']['150x150']['folder'] . $img,
                     'label' => ProductModule::t('product', 'Hình ảnh') . ': 150x150px'
                 ]); ?>
             </div>

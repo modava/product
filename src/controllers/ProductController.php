@@ -133,9 +133,16 @@ class ProductController extends MyProductController
             if ($model->validate()) {
                 if ($model->getAttribute('image') != $model->getOldAttribute('image')) {
                     $pathImage = FRONTEND_HOST_INFO . $model->image;
-                    $pathSave = Yii::getAlias('@frontend/web/uploads/product/');
-                    $pathUpload = MyUpload::uploadFromOnline(200, 200, $pathImage, $pathSave);
-                    $model->image = explode('frontend/web', $pathUpload)[1];
+                    $path = Yii::getAlias('@frontend/web/uploads/product/');
+                    $imageName = null;
+                    foreach (Yii::$app->params['product-size'] as $key => $value) {
+                        $pathSave = $path . $key;
+                        if (!file_exists($pathSave) && !is_dir($pathSave)) {
+                            mkdir($pathSave);
+                        }
+                        $imageName = MyUpload::uploadFromOnline($value['width'], $value['height'], $pathImage, $pathSave . '/', $imageName);
+                    }
+                    $model->image = $imageName;
                 }
                 if ($model->save()) {
                     Yii::$app->session->setFlash('toastr-product-view', [

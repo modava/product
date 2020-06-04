@@ -24,7 +24,7 @@ class m200521_101234_create_table_product extends Migration
             'type_id' => $this->integer(11)->notNull(),
             'title' => $this->string(255)->notNull(),
             'slug' => $this->string(255)->notNull()->unique(),
-            'image' => $this->string(255)->notNull()->defaultValue('/images/no-image.png'),
+            'image' => $this->string(255)->notNull()->defaultValue('no-image.png'),
             'price' => $this->string(255)->null(),
             'price_sale' => $this->string(255)->null(),
             'so_luong' => $this->string(255)->null(),

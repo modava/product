@@ -94,17 +94,26 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'attribute' => 'image',
                                             'format' => 'html',
                                             'value' => function ($model) {
-                                                return Html::img($model->image, ['width' => 150, 'height' => 150]);
+                                                return Html::img(Yii::$app->params['product-size']['150x150']['folder'] . $model->image, ['width' => 150, 'height' => 150]);
                                             },
                                             'headerOptions' => [
                                                 'width' => 150,
                                             ],
                                         ],
-                                        'title',
+                                        [
+                                            'attribute' => 'title',
+                                            'format' => 'raw',
+                                            'value' => function ($model) {
+                                                return Html::a($model->title, ['view', 'id' => $model->id], [
+                                                    'title' => $model->title,
+                                                    'data-pjax' => 0,
+                                                ]);
+                                            }
+                                        ],
                                         [
                                             'attribute' => 'product_code',
                                             'headerOptions' => [
-                                                'width' => 150,
+                                                'width' => 100,
                                             ],
                                         ],
                                         [
@@ -166,6 +175,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'class' => 'yii\grid\ActionColumn',
                                             'header' => ProductModule::t('product', 'Actions'),
+                                            'template' => '{update} {delete}',
                                             'headerOptions' => [
                                                 'width' => 150,
                                             ],
