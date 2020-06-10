@@ -2,11 +2,8 @@
 
 namespace modava\product\controllers;
 
-use modava\article\models\table\ActicleCategoryTable;
-use modava\article\models\table\ArticleTypeTable;
 use modava\product\components\MyUpload;
 use modava\product\models\table\ProductCategoryTable;
-use modava\product\models\table\ProductTable;
 use modava\product\models\table\ProductTypeTable;
 use modava\product\ProductModule;
 use Yii;
@@ -18,6 +15,7 @@ use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\db\Exception;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -200,20 +198,28 @@ class ProductController extends MyProductController
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        if ($model->delete()) {
-            Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
-                'title' => 'Thông báo',
-                'text' => 'Xoá thành công',
-                'type' => 'success'
-            ]);
-        } else {
-            $errors = Html::tag('p', 'Xoá thất bại');
-            foreach ($model->getErrors() as $error) {
-                $errors .= Html::tag('p', $error[0]);
+        try {
+            if ($model->delete()) {
+                Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                    'title' => 'Thông báo',
+                    'text' => 'Xoá thành công',
+                    'type' => 'success'
+                ]);
+            } else {
+                $errors = Html::tag('p', 'Xoá thất bại');
+                foreach ($model->getErrors() as $error) {
+                    $errors .= Html::tag('p', $error[0]);
+                }
+                Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                    'title' => 'Thông báo',
+                    'text' => $errors,
+                    'type' => 'warning'
+                ]);
             }
+        } catch (Exception $ex) {
             Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
                 'title' => 'Thông báo',
-                'text' => $errors,
+                'text' => Html::tag('p', 'Xoá thất bại: ' . $ex->getMessage()),
                 'type' => 'warning'
             ]);
         }

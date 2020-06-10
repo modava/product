@@ -132,6 +132,29 @@ $this->params['breadcrumbs'][] = $this->title;
                                         [
                                             'class' => 'yii\grid\ActionColumn',
                                             'header' => ProductModule::t('product', 'Actions'),
+                                            'template' => '{update} {delete}',
+                                            'buttons' => [
+                                                'update' => function ($url, $model) {
+                                                    return Html::a('<span class="glyphicon glyphicon-pencil"></span>', $url, [
+                                                        'title' => ProductModule::t('product', 'Update'),
+                                                        'alia-label' => ProductModule::t('product', 'Update'),
+                                                        'data-pjax' => 0,
+                                                        'class' => 'btn btn-info btn-xs'
+                                                    ]);
+                                                },
+                                                'delete' => function ($url, $model) {
+                                                    return Html::a('<span class="glyphicon glyphicon-trash"></span>', 'javascript:;', [
+                                                        'title' => ProductModule::t('product', 'Delete'),
+                                                        'class' => 'btn btn-danger btn-xs btn-del',
+                                                        'data-title' => ProductModule::t('product', 'Delete?'),
+                                                        'data-pjax' => 0,
+                                                        'data-url' => $url,
+                                                        'btn-success-class' => 'success-delete',
+                                                        'btn-cancel-class' => 'cancel-delete',
+                                                        'data-placement' => 'top'
+                                                    ]);
+                                                }
+                                            ],
                                             'headerOptions' => [
                                                 'width' => 150,
                                             ],
@@ -150,3 +173,15 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+<?php
+$script = <<< JS
+$('body').on('click', '.success-delete', function(e){
+    e.preventDefault();
+    var url = $(this).attr('href') || null;
+    if(url !== null){
+        $.post(url);
+    }
+    return false;
+});
+JS;
+$this->registerJs($script, \yii\web\View::POS_END);

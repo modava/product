@@ -10,6 +10,7 @@ use modava\product\models\search\ProductCategorySearch;
 use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\db\Exception;
 
 /**
  * ProductCategoryController implements the CRUD actions for ProductCategory model.
@@ -140,20 +141,28 @@ class ProductCategoryController extends MyProductController
     public function actionDelete($id)
     {
         $model = $this->findModel($id);
-        if ($model->delete()) {
-            Yii::$app->session->setFlash('toastr-product-category-index', [
-                'title' => 'Thông báo',
-                'text' => 'Xóa thành công',
-                'type' => 'success'
-            ]);
-        } else {
-            $errors = '';
-            foreach ($model->getErrors() as $error) {
-                $errors .= Html::tag('p', $error[0]);
+        try {
+            if ($model->delete()) {
+                Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                    'title' => 'Thông báo',
+                    'text' => 'Xoá thành công',
+                    'type' => 'success'
+                ]);
+            } else {
+                $errors = Html::tag('p', 'Xoá thất bại');
+                foreach ($model->getErrors() as $error) {
+                    $errors .= Html::tag('p', $error[0]);
+                }
+                Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                    'title' => 'Thông báo',
+                    'text' => $errors,
+                    'type' => 'warning'
+                ]);
             }
-            Yii::$app->session->setFlash('toastr-product-category-index', [
-                'title' => 'Xóa thất bại',
-                'text' => $errors,
+        } catch (Exception $ex) {
+            Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                'title' => 'Thông báo',
+                'text' => Html::tag('p', 'Xoá thất bại: ' . $ex->getMessage()),
                 'type' => 'warning'
             ]);
         }
