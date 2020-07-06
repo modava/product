@@ -114,26 +114,6 @@ class Product extends ProductTable
     }
 
     /**
-     * Gets query for [[Category]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
-    {
-        return $this->hasOne(ProductCategory::class, ['id' => 'category_id']);
-    }
-
-    /**
-     * Gets query for [[Type]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getType()
-    {
-        return $this->hasOne(ProductType::class, ['id' => 'type_id']);
-    }
-
-    /**
      * Gets query for [[CreatedBy]].
      *
      * @return \yii\db\ActiveQuery
@@ -151,15 +131,5 @@ class Product extends ProductTable
     public function getUserUpdated()
     {
         return $this->hasOne(User::class, ['id' => 'updated_by']);
-    }
-
-    /**
-     * Gets query for [[ProductImages]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProductImage()
-    {
-        return $this->hasMany(ProductImage::class, ['product_id' => 'id']);
     }
 }

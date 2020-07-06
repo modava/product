@@ -4,6 +4,7 @@ namespace modava\product\controllers;
 
 use modava\product\components\MyUpload;
 use modava\product\models\table\ProductCategoryTable;
+use modava\product\models\table\ProductTable;
 use modava\product\models\table\ProductTypeTable;
 use modava\product\ProductModule;
 use Yii;
@@ -252,5 +253,23 @@ class ProductController extends MyProductController
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         return ArrayHelper::map(ProductTypeTable::getAllProductType($lang), 'id', 'title');
+    }
+
+    public function actionGetProductInfo($id = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $product = ProductTable::getById($id);
+            if ($product != null) return [
+                'code' => 200,
+                'data' => $product->getAttributes([
+                    'title', 'price', 'price_sale'
+                ])
+            ];
+        }
+        return [
+            'code' => 403,
+            'data' => ProductModule::t('product', 'Permission denined!')
+        ];
     }
 }
