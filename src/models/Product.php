@@ -4,9 +4,13 @@ namespace modava\product\models;
 
 use common\helpers\MyHelper;
 use common\models\User;
+use modava\product\components\MyUpload;
 use modava\product\models\table\ProductTable;
 use modava\product\ProductModule;
+use Mpdf\Tag\P;
 use Yii;
+use yii\base\Exception;
+use yii\behaviors\AttributeBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\db\ActiveRecord;
@@ -15,6 +19,7 @@ use yii\db\ActiveRecord;
 class Product extends ProductTable
 {
     public $toastr_key = 'product';
+    public $iptImages;
 
     public function behaviors()
     {
@@ -57,7 +62,7 @@ class Product extends ProductTable
             [['type_id'], 'required', 'message' => ProductModule::t('product', 'Loại sản phẩm chưa chọn')],
             [['category_id', 'type_id', 'position', 'status', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'content', 'ads_pixel', 'ads_session', 'language'], 'string'],
-            [['product_tech'], 'safe'],
+            [['product_tech', 'iptImages'], 'safe'],
             ['language', 'in', 'range' => ['vi', 'en', 'jp'], 'strict' => false],
             [['product_code'], 'string', 'max' => 25],
             [['title', 'slug', 'image', 'price', 'price_sale', 'so_luong'], 'string', 'max' => 255],
@@ -102,6 +107,65 @@ class Product extends ProductTable
             'created_by' => ProductModule::t('product', 'Created By'),
             'updated_by' => ProductModule::t('product', 'Updated By'),
         ];
+    }
+
+    public function validateImages()
+    {
+        $iptImages = json_decode($this->iptImages);
+        if ($iptImages != null) {
+            $this->iptImages = $iptImages;
+        }
+        if ($this->iptImages == null) {
+            $this->addError('iptImages', 'Images null');
+            return false;
+        } else {
+            if (is_string($this->iptImages)) $this->iptImages = [$this->iptImages];
+            if (!is_array($this->iptImages)) {
+                $this->addError('iptImages', 'Data type failed');
+                return false;
+            } else {
+                foreach ($this->iptImages as $image) {
+                    $modelImages = new ProductImage([
+                        'product_id' => $this->primaryKey,
+                        'image_url' => $image
+                    ]);
+                    if (!$modelImages->validate()) {
+                        var_dump($modelImages->getErrors());
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public function saveImages()
+    {
+        if (is_array($this->iptImages)) {
+            foreach ($this->iptImages as $image) {
+                $path = Yii::getAlias('@frontend/web/uploads/product/');
+                $imageName = null;
+                foreach (Yii::$app->params['product'] as $key => $value) {
+                    $pathSave = $path . $key;
+                    if (!file_exists($pathSave) && !is_dir($pathSave)) {
+                        mkdir($pathSave);
+                    }
+                    $resultName = MyUpload::uploadFromOnline($value['width'], $value['height'], $image, $pathSave . '/', $imageName);
+                    if ($imageName == null) {
+                        $imageName = $resultName;
+                    }
+                }
+                $modelImage = new ProductImage([
+                    'product_id' => $this->primaryKey,
+                    'image_url' => $imageName
+                ]);
+                if (!$modelImage->save()) {
+                    var_dump($modelImage->getErrors());
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public function afterSave($insert, $changedAttributes)

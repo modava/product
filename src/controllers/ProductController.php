@@ -189,6 +189,20 @@ class ProductController extends MyProductController
         ]);
     }
 
+    public function actionImages($id)
+    {
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validateImages() && $model->saveImages()) {
+                return $this->refresh();
+            }
+        }
+        $model->iptImages = null;
+        return $this->render('images', [
+            'model' => $model
+        ]);
+    }
+
     /**
      * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

@@ -6,6 +6,7 @@ use common\models\User;
 use modava\product\ProductModule;
 use Yii;
 use modava\product\models\table\ProductImageTable;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "product_image".
@@ -27,6 +28,20 @@ class ProductImage extends ProductImageTable
 {
     public $toastr_key = 'product-image';
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => 'yii\behaviors\TimestampBehavior',
+                'preserveNonEmptyValues' => true,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                ],
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -38,7 +53,7 @@ class ProductImage extends ProductImageTable
             [['image_url'], 'string', 'max' => 255],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::class, 'targetAttribute' => ['product_id' => 'id']],
-            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['updated_by' => 'id']],
+            [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['updated_by' => 'id']]
         ];
     }
 
