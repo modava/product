@@ -46,11 +46,13 @@ class ProductImageTable extends \yii\db\ActiveRecord
         return self::$base_url;
     }
 
-    public function getImage()
+    public function getImage(string $size = null)
     {
-        if (!is_dir(Yii::getAlias('@frontend/web') . Yii::$app->params['product']['150x150']['folder'] . $this->image_url) && file_exists(Yii::getAlias('@frontend/web') . Yii::$app->params['product']['150x150']['folder'] . $this->image_url)) {
-            return Yii::$app->assetManager->publish(Yii::getAlias('@frontend/web') . Yii::$app->params['product']['150x150']['folder'] . $this->image_url)[1];
-        }
-        return null;
+        $image = $this->image_url;
+        if (!isset(Yii::$app->params['product'])) $image = 'no-image.png';
+        if (!array_key_exists($size, Yii::$app->params['product'])) $size = array_keys(Yii::$app->params['product'])[0];
+        $pathImage = Yii::getAlias('@frontend/web') . Yii::$app->params['product'][$size]['folder'];
+        if (is_dir($pathImage . $image) || !file_exists($pathImage . $image)) $image = 'no-image.png';
+        return Yii::$app->assetManager->publish($pathImage . $image)[1];
     }
 }

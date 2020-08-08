@@ -51,7 +51,7 @@ $css = <<< CSS
 }
 .upload-img-zone {
     z-index: 2;
-    background: url(https://cdn3.iconfinder.com/data/icons/glypho-generic-icons/64/action-upload-alt-512.png) center center;
+    background: url(https://cdn3.iconfinder.com/data/icons/glypho-generic-icons/64/action-upload-alt-512.png) no-repeat center center;
     background-size: contain;
 }
 .upload-img-zone, .upload-img-zone:before {

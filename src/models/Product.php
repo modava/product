@@ -48,6 +48,17 @@ class Product extends ProductTable
                         ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
                     ],
                 ],
+                [
+                    'class' => AttributeBehavior::class,
+                    'attributes' => [
+                        ActiveRecord::EVENT_BEFORE_INSERT => ['type_id'],
+                        ActiveRecord::EVENT_BEFORE_UPDATE => ['type_id'],
+                    ],
+                    'value' => function () {
+                        if ($this->type_id == null) return 0;
+                        return $this->type_id;
+                    }
+                ]
             ]);
     }
 
