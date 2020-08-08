@@ -78,10 +78,10 @@ class ProductController extends MyProductController
         if ($model->load(Yii::$app->request->post())) {
             if ($model->validate()) {
                 if ($model->save()) {
+                    $imageName = null;
                     if ($model->image != "") {
                         $pathImage = FRONTEND_HOST_INFO . $model->image;
                         $path = Yii::getAlias('@frontend/web/uploads/product/');
-                        $imageName = null;
                         foreach (Yii::$app->params['product'] as $key => $value) {
                             $pathSave = $path . $key;
                             if (!file_exists($pathSave) && !is_dir($pathSave)) {
@@ -90,8 +90,6 @@ class ProductController extends MyProductController
                             $imageName = MyUpload::uploadFromOnline($value['width'], $value['height'], $pathImage, $pathSave . '/', $imageName);
                         }
 
-                    } else {
-                        $imageName = NOIMAGE;
                     }
                     $model->image = $imageName;
                     $model->updateAttributes(['image']);
@@ -135,10 +133,7 @@ class ProductController extends MyProductController
                 $oldImage = $model->getOldAttribute('image');
                 if ($model->save()) {
                     if ($model->getAttribute('image') !== $oldImage) {
-                        if ($model->getAttribute('image') == '') {
-                            $model->image = 'no-image.png';
-                            $model->updateAttributes(['image']);
-                        } else {
+                        if ($model->getAttribute('image') != '') {
                             $pathImage = FRONTEND_HOST_INFO . $model->image;
                             $path = Yii::getAlias('@frontend/web/uploads/product/');
                             $imageName = null;
