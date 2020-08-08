@@ -19,7 +19,9 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
         </div>
         <div class="col-4">
-            <?= $form->field($model, 'language')->dropDownList(Yii::$app->getModule('product')->params['availableLocales'])->label(ProductModule::t('product', 'Ngôn ngữ')) ?>
+            <?= $form->field($model, 'language')
+                ->dropDownList(Yii::$app->getModule('product')->params['availableLocales'], ['prompt' => ProductModule::t('product', 'Chọn ngôn ngữ...')])
+                ->label(ProductModule::t('product', 'Ngôn ngữ')) ?>
         </div>
     </div>
 
