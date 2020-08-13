@@ -154,7 +154,7 @@ $this->registerCss($css);
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"><?= Yii::t('backend', 'File Manager'); ?></h5>
+                    <h5 class="modal-title"><?= ProductModule::t('product', 'File Manager'); ?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -165,7 +165,7 @@ $this->registerCss($css);
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal"><?= Yii::t('backend', 'Close'); ?></button>
+                            data-dismiss="modal"><?= ProductModule::t('product', 'Close'); ?></button>
                 </div>
             </div>
         </div>
