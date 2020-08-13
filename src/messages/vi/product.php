@@ -35,4 +35,5 @@ return [
     'Price Sale' => 'Khuyến mại',
     'Quantity' => 'Số lượng',
     'Product tech' => 'Thuộc tính sản phẩm',
+    'Product hot' => 'Sản phẩm nổi bật'
 ];

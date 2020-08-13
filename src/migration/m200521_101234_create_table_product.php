@@ -30,6 +30,7 @@ class m200521_101234_create_table_product extends Migration
             'so_luong' => $this->string(255)->null(),
             'description' => $this->text()->null(),
             'content' => $this->text()->null(),
+            'product_hot' => $this->smallInteger()->notNull()->defaultValue(0),
             'product_tech' => $this->json()->null(),
             'position' => $this->integer(11)->null(),
             'ads_pixel' => $this->text()->null(),

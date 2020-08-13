@@ -198,6 +198,50 @@ class ProductController extends MyProductController
         ]);
     }
 
+    public function actionCheckHot()
+    {
+        if (Yii::$app->request->isAjax) {
+            $id = Yii::$app->request->post('id');
+
+            $model = $this->findModel($id);
+            try {
+                if ($model->product_hot == 1) {
+                    $model->product_hot = 0;
+                } else {
+                    $model->product_hot = 1;
+                }
+                if ($model->save()) {
+                    Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                        'title' => 'Thông báo',
+                        'text' => 'Cập nhật thành công',
+                        'type' => 'success'
+                    ]);
+                } else {
+                    $errors = Html::tag('p', 'Cập nhật thất bại');
+                    foreach ($model->getErrors() as $error) {
+                        $errors .= Html::tag('p', $error[0]);
+                    }
+                    Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                        'title' => 'Thông báo',
+                        'text' => $errors,
+                        'type' => 'warning'
+                    ]);
+                }
+            } catch (\yii\db\Exception $exception) {
+                $errors = Html::tag('p', 'Cập nhật thất bại');
+                foreach ($exception as $error) {
+                    $errors .= Html::tag('p', $error[0]);
+                }
+                Yii::$app->session->setFlash('toastr-' . $model->toastr_key . '-index', [
+                    'title' => 'Thông báo',
+                    'text' => $errors,
+                    'type' => 'warning'
+                ]);
+            }
+            return $this->redirect(['index']);
+        }
+    }
+
     /**
      * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

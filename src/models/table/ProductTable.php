@@ -23,6 +23,7 @@ use Yii;
  * @property string|null $so_luong
  * @property string|null $description
  * @property string|null $content
+ * @property int $product_hot
  * @property string|null $product_tech
  * @property int|null $position
  * @property string|null $ads_pixel

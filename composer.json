@@ -23,7 +23,8 @@
     "yiisoft/yii2": "@dev",
     "yiisoft/yii2-bootstrap": "@dev",
     "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
-    "modava/auth": "@dev"
+    "modava/auth": "@dev",
+    "modava/input": "1.00"
   },
   "autoload": {
     "psr-4": {

@@ -7,9 +7,7 @@ use common\models\User;
 use modava\product\components\MyUpload;
 use modava\product\models\table\ProductTable;
 use modava\product\ProductModule;
-use Mpdf\Tag\P;
 use Yii;
-use yii\base\Exception;
 use yii\behaviors\AttributeBehavior;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -71,7 +69,7 @@ class Product extends ProductTable
             [['title'], 'required'],
             [['category_id'], 'required', 'message' => ProductModule::t('product', 'Danh mục sản phẩm chưa chọn')],
             [['type_id'], 'required', 'message' => ProductModule::t('product', 'Loại sản phẩm chưa chọn')],
-            [['category_id', 'type_id', 'position', 'status', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['category_id', 'type_id', 'position', 'status', 'product_hot', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'content', 'ads_pixel', 'ads_session', 'language'], 'string'],
             [['product_tech', 'iptImages'], 'safe'],
             ['language', 'in', 'range' => ['vi', 'en', 'jp'], 'strict' => false],
@@ -106,6 +104,7 @@ class Product extends ProductTable
             'so_luong' => ProductModule::t('product', 'Quantity'),
             'description' => ProductModule::t('product', 'Description'),
             'content' => ProductModule::t('product', 'Content'),
+            'product_hot' => ProductModule::t('product', 'Product hot'),
             'product_tech' => ProductModule::t('product', 'Product tech'),
             'position' => ProductModule::t('product', 'Position'),
             'ads_pixel' => ProductModule::t('product', 'Ads Pixel'),
