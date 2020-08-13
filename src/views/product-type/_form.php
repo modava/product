@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="col-4">
             <?= $form->field($model, 'language')
-                ->dropDownList(Yii::$app->getModule('product')->params['availableLocales'], ['prompt' => ProductModule::t('product', 'Chọn ngôn ngữ...')])
+                ->dropDownList(Yii::$app->params['availableLocales'], ['prompt' => ProductModule::t('product', 'Chọn ngôn ngữ...')])
                 ->label(ProductModule::t('product', 'Ngôn ngữ')) ?>
         </div>
     </div>

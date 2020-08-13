@@ -9,11 +9,6 @@
 use modava\product\ProductModule;
 
 return [
-    'availableLocales' => [
-        'vi' => 'Tiếng Việt',
-        'en' => 'English',
-        'jp' => 'Japan',
-    ],
     'productName' => 'Product',
     'productVersion' => '1.0',
     'status' => [
