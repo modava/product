@@ -67,8 +67,6 @@ class Product extends ProductTable
     {
         return [
             [['title'], 'required'],
-            [['category_id'], 'required', 'message' => ProductModule::t('product', 'Danh mục sản phẩm chưa chọn')],
-            [['type_id'], 'required', 'message' => ProductModule::t('product', 'Loại sản phẩm chưa chọn')],
             [['category_id', 'type_id', 'position', 'status', 'product_hot', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'content', 'ads_pixel', 'ads_session', 'language'], 'string'],
             [['product_tech', 'iptImages'], 'safe'],

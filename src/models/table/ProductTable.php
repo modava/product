@@ -13,8 +13,8 @@ use Yii;
  *
  * @property int $id
  * @property string|null $product_code
- * @property int $category_id
- * @property int $type_id
+ * @property int|null $category_id
+ * @property int|null $type_id
  * @property string $title
  * @property string $slug
  * @property string|null $image

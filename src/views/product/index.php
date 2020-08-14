@@ -11,7 +11,6 @@ use yii\widgets\Pjax;
 
 $this->title = ProductModule::t('product', 'Product');
 $this->params['breadcrumbs'][] = $this->title;
-\backend\widgets\ToastrWidget::widget(['key' => 'toastr-' . $searchModel->toastr_key . '-index']);
 ?>
     <div class="container-fluid px-xxl-25 px-xl-10">
         <?= \modava\product\widgets\NavbarWidgets::widget(); ?>
@@ -32,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <section class="hk-sec-wrapper">
 
                     <?php Pjax::begin(['id' => 'product', 'timeout' => false, 'enablePushState' => true, 'clientOptions' => ['method' => 'GET']]); ?>
+                    <?php echo \backend\widgets\ToastrWidget::widget(['key' => 'toastr-' . $searchModel->toastr_key . '-index']); ?>
                     <div class="row">
                         <div class="col-sm">
                             <div class="table-wrap">
@@ -242,11 +242,16 @@ $('body').on('click', '.success-delete', function(e){
     return false;
 });
 $(document).ready(function () {
-    $('.check-toggle').change(function (e) {
+    $('body').on('change', '.check-toggle', function (e) {
         e.preventDefault();
         var currentUrl = $(location).attr('href');
         var id = $(this).val();
         $.post('$urlCheckHot', {id: id}, function (res) {
+            $.pjax.reload({
+                url: currentUrl,
+                method: 'POST',
+                container: '#product'
+            });
         });
         return false;
     });

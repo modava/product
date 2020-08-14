@@ -238,7 +238,6 @@ class ProductController extends MyProductController
                     'type' => 'warning'
                 ]);
             }
-            return $this->redirect(['index']);
         }
     }
 
