@@ -14,72 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Produc
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ProductModule::t('product', 'Images');
 
-$insFile = FileManagerAsset::register($this);
-$link = $insFile->baseUrl . '/filemanager/';
-$configPath = [
-    'upload_dir' => ProductImage::getUploadDir(),
-    'base_url' => ProductImage::getBaseUrl(),
-    'FileManagerPermisstion' => FileManagerPermisstion::setPermissionFileAccess()
-];
-$filemanager_access_key = urlencode(serialize($configPath));
-
 $css = <<< CSS
-.img-select-content {
-    position: relative;
-    display: inline-block;
-}
-.remove-img {
-    position: absolute;
-    color: red;
-    border: solid 1px red;
-    height: 20px;
-    width: 20px;
-    align-items: center;
-    justify-content: center;
-    top: -5px;
-    right: -5px;
-    display: flex;
-    opacity: 0;
-    z-index: -1;
-    cursor: pointer;
-    background: #fff;
-    border-radius: 3px;
-}
-.has-img .remove-img {
-    opacity: 1;
-    z-index: 1;
-}
-.upload-img-zone {
-    z-index: 2;
-    background: url(https://cdn3.iconfinder.com/data/icons/glypho-generic-icons/64/action-upload-alt-512.png) no-repeat center center;
-    background-size: contain;
-}
-.upload-img-zone, .upload-img-zone:before {
-    content: "";
-    position: absolute;
-    top: 30%;
-    left: 30%;
-    right: 30%;
-    bottom: 30%;
-    z-index: -1;
-    opacity: 0;
-    transition: all .4s ease;
-}
-.img-select:hover .upload-img-zone, .img-select:hover .upload-img-zone:before {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    opacity: 1;
-}
-.image-modal {
-    height: 160px;
-    padding: .25rem;
-    background-color: #f5f7fa;
-    border: 1px solid #ddd;
-    border-radius: .25rem;
-}
 .hk-sec-wrapper .hk-gallery a {
     display: block;
 }
@@ -123,52 +58,31 @@ $this->registerCss($css);
                                 ?>
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-6 mb-10 px-5"
                                      data-src="<?= $image ?>">
-                                    <a href="#" class="">
+                                    <a href="#" class="d-block">
                                         <div class="gallery-img"
                                              style="background-image:url('<?= $image ?>');"></div>
                                     </a>
                                 </div>
                             <?php }
                         } ?>
-                        <div class="col-lg-2 col-md-4 col-sm-4 col-6 mb-10 px-5 gallery-content img-select-content">
-                            <div class="img-select" data-toggle="modal" data-target="#file-manager">
-                                <div class="image-modal"></div>
-                                <div class="upload-img-zone"></div>
-                                <div class="d-none">
-                                    <?= $form->field($model, 'iptImages')->textInput([
-                                        'id' => 'iptImages'
-                                    ]) ?>
-                                </div>
-                            </div>
-                            <span class="remove-img delete"><i class="fa fa-times"></i></span>
+                        <div class="col-lg-2 col-md-4 col-sm-4 col-6 mb-10 px-5">
+                            <?php
+                            if (empty($model->getErrors()))
+                                $path = Yii::$app->params['product']['150x150']['folder'];
+                            else
+                                $path = null;
+                            echo \modava\tiny\FileManager::widget([
+                                'model' => $model,
+                                'attribute' => 'iptImages',
+                                'path' => $path,
+                                'label' => ProductModule::t('product', 'Hình ảnh') . ': ' . Yii::$app->params['product-size'],
+                            ]); ?>
                         </div>
                     </div>
                 </section>
             </div>
         </div>
         <?php ActiveForm::end() ?>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="file-manager" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLarge01" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><?= ProductModule::t('product', 'File Manager'); ?></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <iframe src="<?= $link; ?>/dialog.php?type=2&field_id=iptImages&lang=vi&akey=<?= $filemanager_access_key; ?>"
-                            style="width: 100%; height: 900px;"></iframe>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-dismiss="modal"><?= ProductModule::t('product', 'Close'); ?></button>
-                </div>
-            </div>
-        </div>
     </div>
 <?php
 $script = <<< JS
