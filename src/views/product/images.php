@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = ProductModule::t('product', 'Images');
 $css = <<< CSS
 .hk-sec-wrapper .hk-gallery a {
     display: block;
+    position: relative;
 }
 .hk-sec-wrapper .hk-gallery a .gallery-img {
     min-height: 160px;
@@ -24,6 +25,23 @@ $css = <<< CSS
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+.del-image {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    color: red;
+    border: solid 2px red;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    opacity: .6;
+}
+.hk-gallery a:hover .del-image {
+    opacity: 1;
 }
 CSS;
 $this->registerCss($css);
@@ -59,6 +77,9 @@ $this->registerCss($css);
                                 <div class="col-lg-2 col-md-4 col-sm-4 col-6 mb-10 px-5"
                                      data-src="<?= $image ?>">
                                     <a href="#" class="d-block">
+                                        <span class="del-image" data-image="<?= $productImage->id ?>">
+                                            <i class="fa fa-times"></i>
+                                        </span>
                                         <div class="gallery-img"
                                              style="background-image:url('<?= $image ?>');"></div>
                                     </a>
@@ -85,9 +106,18 @@ $this->registerCss($css);
         <?php ActiveForm::end() ?>
     </div>
 <?php
+$urlDelImage = \yii\helpers\Url::toRoute(['del-image']);
 $script = <<< JS
 function responsive_filemanager_callback(field_id){
     $('#form-product-images').submit();
 }
+$('body').on('click', '.del-image', function(){
+    var data_image = $(this).attr('data-image');
+    $.get('$urlDelImage', {
+        'id': data_image
+    }, res => {
+        window.location.reload();
+    });
+});
 JS;
 $this->registerJs($script, \yii\web\View::POS_END);
