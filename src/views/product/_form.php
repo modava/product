@@ -76,7 +76,7 @@ if ($model->language == null) $model->language = Yii::$app->language;
                             'type' => 'dropDownList',
                             'title' => ProductModule::t('product', 'Thuộc tính sản phẩm'),
                             'defaultValue' => 1,
-                            'items' => Yii::$app->getModule('product')->params['product_tech'],
+                            'items' => Yii::$app->params['product_tech'],
                         ],
                         [
                             'name' => 'value',

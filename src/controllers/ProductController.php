@@ -107,7 +107,7 @@ class ProductController extends MyProductController
                     $errors .= Html::tag('p', $error[0]);
                 }
                 Yii::$app->session->setFlash('toastr-product-form', [
-                    'title' => 'Cập nhật thất bại',
+                    'title' => 'Tạo mới thất bại',
                     'text' => $errors,
                     'type' => 'warning'
                 ]);
