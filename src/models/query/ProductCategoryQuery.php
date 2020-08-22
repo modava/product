@@ -28,6 +28,7 @@ class ProductCategoryQuery extends \yii\db\ActiveQuery
 
     public function findByLanguage()
     {
-        return $this->andWhere([ProductCategory::tableName() . '.language' => \Yii::$app->language]);
+        return $this->andWhere([ProductCategory::tableName() . '.language' => \Yii::$app->language])
+            ->orWhere([ProductCategory::tableName() . '.language' => '']);
     }
 }
