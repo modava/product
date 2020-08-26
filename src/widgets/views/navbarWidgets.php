@@ -1,10 +1,10 @@
 <?php
 
-use yii\helpers\Url;
 use modava\product\ProductModule;
+use yii\helpers\Url;
 
 ?>
-<ul class="nav nav-tabs nav-sm nav-light mb-25">
+<ul class="nav nav-tabs nav-sm nav-light mb-10">
     <li class="nav-item mb-5">
         <a class="nav-link link-icon-left<?php if (Yii::$app->controller->id == 'product' && Yii::$app->controller->action->id != 'images') echo ' active' ?>"
            href="<?= Url::toRoute(['/product']); ?>">
@@ -25,7 +25,8 @@ use modava\product\ProductModule;
     </li>
     <?php if (Yii::$app->controller->id == 'product' && Yii::$app->controller->action->id == 'images') { ?>
         <li class="nav-item mb-5">
-            <a class="nav-link link-icon-left active" href="<?= Url::toRoute(['/product/product/images', 'id' => Yii::$app->request->get('id')]); ?>">
+            <a class="nav-link link-icon-left active"
+               href="<?= Url::toRoute(['/product/product/images', 'id' => Yii::$app->request->get('id')]); ?>">
                 <i class="ion ion-md-images"></i><?= ProductModule::t('product', 'Product image'); ?>
             </a>
         </li>

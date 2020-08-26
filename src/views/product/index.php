@@ -1,8 +1,8 @@
 <?php
 
 use modava\product\ProductModule;
+use common\grid\MyGridView;
 use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <h4 class="hk-pg-title"><span class="pg-title-icon"><span
                             class="ion ion-md-apps"></span></span><?= Html::encode($this->title) ?>
             </h4>
-            <a class="btn btn-outline-light" href="<?= \yii\helpers\Url::to(['create']); ?>"
+            <a class="btn btn-outline-light btn-sm" href="<?= \yii\helpers\Url::to(['create']); ?>"
                title="<?= ProductModule::t('product', 'Create'); ?>">
                 <i class="fa fa-plus"></i> <?= ProductModule::t('product', 'Create'); ?></a>
         </div>
@@ -36,28 +36,34 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-sm">
                             <div class="table-wrap">
                                 <div class="dataTables_wrapper dt-bootstrap4">
-                                    <?= GridView::widget([
+                                    <?= MyGridView::widget([
                                         'dataProvider' => $dataProvider,
                                         'layout' => '
-                                    {errors}
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            {items}
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-5">
-                                            <div class="dataTables_info" role="status" aria-live="polite">
-                                                {pager}
+                                            {errors} 
+                                            <div class="pane-single-table">
+                                                {items}
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-7">
-                                            <div class="dataTables_paginate paging_simple_numbers">
-                                                {summary}
+                                            <div class="pager-wrap clearfix">
+                                                {summary}' .
+                                            Yii::$app->controller->renderPartial('@backend/views/layouts/my-gridview/_pageTo', [
+                                                'totalPage' => $totalPage,
+                                                'currentPage' => Yii::$app->request->get($dataProvider->getPagination()->pageParam)
+                                            ]) .
+                                            Yii::$app->controller->renderPartial('@backend/views/layouts/my-gridview/_pageSize') .
+                                            '{pager}
                                             </div>
-                                        </div>
-                                    </div>
-                                ',
+                                        ',
+                                        'tableOptions' => [
+                                            'id' => 'dataTable',
+                                            'class' => 'dt-grid dt-widget pane-hScroll',
+                                        ],
+                                        'myOptions' => [
+                                            'class' => 'dt-grid-content my-content pane-vScroll',
+                                            'data-minus' => '{"0":95,"1":".hk-navbar","2":".nav-tabs","3":".hk-pg-header","4":".hk-footer-wrap"}'
+                                        ],
+                                        'summaryOptions' => [
+                                            'class' => 'summary pull-right',
+                                        ],
                                         'pager' => [
                                             'firstPageLabel' => ProductModule::t('product', 'First'),
                                             'lastPageLabel' => ProductModule::t('product', 'Last'),
@@ -77,10 +83,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'pageCssClass' => 'page-item',
 
                                             // Customzing CSS class for navigating link
-                                            'prevPageCssClass' => 'paginate_button page-item',
-                                            'nextPageCssClass' => 'paginate_button page-item',
-                                            'firstPageCssClass' => 'paginate_button page-item',
-                                            'lastPageCssClass' => 'paginate_button page-item',
+                                            'prevPageCssClass' => 'paginate_button page-item prev',
+                                            'nextPageCssClass' => 'paginate_button page-item next',
+                                            'firstPageCssClass' => 'paginate_button page-item first',
+                                            'lastPageCssClass' => 'paginate_button page-item last',
                                         ],
                                         'columns' => [
                                             [
@@ -159,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     ]);
                                                 },
                                                 'headerOptions' => [
-                                                    'width' => 120,
+                                                    'width' => 150,
                                                 ],
                                             ],
                                             [
@@ -231,8 +237,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
 <?php
+$urlChangePageSize = \yii\helpers\Url::toRoute(['perpage']);
 $urlCheckHot = \yii\helpers\Url::toRoute(['check-hot']);
 $script = <<< JS
+var customPjax = new myGridView();
+customPjax.init({
+    pjaxId: '#product',
+    urlChangePageSize: '$urlChangePageSize',
+});
 $('body').on('click', '.success-delete', function(e){
     e.preventDefault();
     var url = $(this).attr('href') || null;

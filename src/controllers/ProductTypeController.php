@@ -2,15 +2,16 @@
 
 namespace modava\product\controllers;
 
-use modava\product\ProductModule;
-use Yii;
+use backend\components\MyComponent;
+use modava\product\components\MyProductController;
 use modava\product\models\ProductType;
 use modava\product\models\search\ProductTypeSearch;
-use modava\product\components\MyProductController;
+use modava\product\ProductModule;
+use Yii;
+use yii\db\Exception;
+use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\db\Exception;
 
 /**
  * ProductTypeController implements the CRUD actions for ProductType model.
@@ -40,11 +41,13 @@ class ProductTypeController extends MyProductController
     {
         $searchModel = new ProductTypeSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-//        $dataProvider->pagination->pageSize = 1;
+
+        $totalPage = $this->getTotalPage($dataProvider);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'totalPage' => $totalPage,
         ]);
     }
 
@@ -167,6 +170,33 @@ class ProductTypeController extends MyProductController
             ]);
         }
         return $this->redirect(['index']);
+    }
+
+    /**
+     * @param $perpage
+     */
+    public function actionPerpage($perpage)
+    {
+        MyComponent::setCookies('pageSize', $perpage);
+    }
+
+    /**
+     * @param $dataProvider
+     * @return float|int
+     */
+    public function getTotalPage($dataProvider)
+    {
+        if (MyComponent::hasCookies('pageSize')) {
+            $dataProvider->pagination->pageSize = MyComponent::getCookies('pageSize');
+        } else {
+            $dataProvider->pagination->pageSize = 10;
+        }
+
+        $pageSize = $dataProvider->pagination->pageSize;
+        $totalCount = $dataProvider->totalCount;
+        $totalPage = (($totalCount + $pageSize - 1) / $pageSize);
+
+        return $totalPage;
     }
 
     /**
