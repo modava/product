@@ -11,7 +11,7 @@ return [
     'Title' => 'Tiêu đề',
     'Slug' => 'Slug',
     'Parent ID' => 'Danh mục cha',
-    'Image' => 'Hình ảnh',
+    'Image' => 'Hình',
     'Description' => 'Mô tả ngắn',
     'Position' => 'Vị trí',
     'Ads Pixel' => 'Pixel facebook',
@@ -35,5 +35,5 @@ return [
     'Price Sale' => 'Khuyến mại',
     'Quantity' => 'Số lượng',
     'Product tech' => 'Thuộc tính sản phẩm',
-    'Product hot' => 'Sản phẩm nổi bật'
+    'Product hot' => 'Hot'
 ];
