@@ -55,7 +55,6 @@ class ProductType extends ProductTypeTable
             [['position', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['ads_pixel', 'ads_session', 'language'], 'string'],
             [['title', 'slug', 'image', 'description'], 'string', 'max' => 255],
-            ['language', 'in', 'range' => ['vi', 'en', 'jp'], 'strict' => false],
             [['slug'], 'unique'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['updated_by' => 'id']],

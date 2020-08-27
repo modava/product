@@ -72,7 +72,6 @@ class Product extends ProductTable
             [['category_id', 'type_id', 'position', 'status', 'product_hot', 'views', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['description', 'content', 'ads_pixel', 'ads_session', 'language'], 'string'],
             [['product_tech', 'iptImages'], 'safe'],
-            ['language', 'in', 'range' => ['vi', 'en', 'jp'], 'strict' => false],
             [['product_code'], 'string', 'max' => 25],
             [['title', 'slug', 'image', 'price', 'price_sale', 'so_luong'], 'string', 'max' => 255],
             [['slug'], 'unique', 'targetAttribute' => 'slug'],

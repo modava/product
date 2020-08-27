@@ -36,6 +36,7 @@ class m200521_101234_create_table_product extends Migration
             'ads_pixel' => $this->text()->null(),
             'ads_session' => $this->text()->null(),
             'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
+            'language' => $this->string(25)->null(),
             'views' => $this->bigInteger(20)->null(),
             'created_at' => $this->integer(11)->notNull(),
             'updated_at' => $this->integer(11)->notNull(),
@@ -44,7 +45,6 @@ class m200521_101234_create_table_product extends Migration
         ], $tableOptions);
 
         $this->createIndex('index-slug', 'product', 'slug');
-        $this->addColumn('product', 'language', "ENUM('vi', 'en', 'jp') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'vi' COMMENT 'Language for yii2' AFTER `views`");
         $this->createIndex('index-language', 'product', 'language');
         $this->addForeignKey("fk_product_type", "product", "type_id", "product_type", "id", "RESTRICT", "CASCADE");
         $this->addForeignKey("fk_product_category", "product", "category_id", "product_category", "id", "RESTRICT", "CASCADE");

@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <!-- Row -->
     <div class="row">
         <div class="col-xl-12">
-            <section class="hk-sec-wrapper">
+            <section class="hk-sec-wrapper index">
 
                 <?php Pjax::begin(['id' => 'product-pjax', 'timeout' => false, 'enablePushState' => true, 'clientOptions' => ['method' => 'GET']]); ?>
                 <div class="row">
@@ -98,7 +98,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ],
                                         ],
 
-                                        'title',
+                                        [
+                                            'attribute' => 'title',
+                                            'format' => 'raw',
+                                            'value' => function ($model) {
+                                                return Html::a($model->title, ['view', 'id' => $model->id], [
+                                                    'title' => $model->title,
+                                                    'data-pjax' => 0,
+                                                ]);
+                                            }
+                                        ],
 //                                        'image',
                                         'description:html',
                                         //'position',

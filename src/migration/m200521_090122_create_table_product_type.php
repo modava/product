@@ -27,13 +27,13 @@ class m200521_090122_create_table_product_type extends Migration
             'ads_pixel' => $this->text()->null(),
             'ads_session' => $this->text()->null(),
             'status' => $this->smallInteger(1)->notNull()->defaultValue(1),
+            'language' => $this->string(25)->null(),
             'created_at' => $this->integer(11)->notNull(),
             'updated_at' => $this->integer(11)->notNull(),
             'created_by' => $this->integer(11)->null(),
             'updated_by' => $this->integer(11)->null(),
         ], $tableOptions);
 
-        $this->addColumn('product_type', 'language', "ENUM('vi', 'en', 'jp') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'vi' COMMENT 'Language' AFTER `status`");
         $this->createIndex('index-slug', 'product_type', 'slug');
         $this->createIndex('index-language', 'product_type', 'language');
         $this->addForeignKey('fk_product_created_by_type_user', 'product_type', 'created_by', 'user', 'id', 'RESTRICT', 'CASCADE');

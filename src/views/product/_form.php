@@ -13,7 +13,6 @@ use unclead\multipleinput\MultipleInput;
 /* @var $model modava\product\models\Product */
 /* @var $form yii\widgets\ActiveForm */
 \backend\widgets\ToastrWidget::widget(['key' => 'toastr-' . $model->toastr_key . '-form']);
-if ($model->language == null) $model->language = Yii::$app->language;
 ?>
 
     <div class="product-form">
@@ -37,7 +36,8 @@ if ($model->language == null) $model->language = Yii::$app->language;
             </div>
             <div class="col-4">
                 <?= $form->field($model, 'category_id')
-                    ->dropDownList(ArrayHelper::map(ProductCategoryTable::getAllProductCategory($model->language), 'id', 'title'), ['prompt' => 'Chọn danh mục...'])->label('Danh mục sản phẩm') ?>
+                    ->dropDownList(ArrayHelper::map(ProductCategoryTable::getAllProductCategory($model->language), 'id', 'title'), ['prompt' => 'Chọn danh mục...'])
+                    ->label('Danh mục sản phẩm') ?>
             </div>
             <div class="col-4">
                 <?= $form->field($model, 'type_id')->dropDownList(ArrayHelper::map(ProductTypeTable::getAllProductType($model->language), 'id', 'title'), ['prompt' => 'Chọn loại...'])->label('Loại sản phẩm') ?>
