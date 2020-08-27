@@ -105,7 +105,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     return Html::img(Yii::$app->params['product']['150x150']['folder'] . $model->image, ['width' => 50, 'height' => 50]);
                                                 },
                                                 'headerOptions' => [
-                                                    'width' => 100,
+                                                    'width' => 80,
                                                 ],
                                             ],
                                             [
@@ -165,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     ]);
                                                 },
                                                 'headerOptions' => [
-                                                    'width' => 150,
+                                                    'width' => 70,
                                                 ],
                                             ],
                                             [
