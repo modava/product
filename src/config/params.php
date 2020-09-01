@@ -12,7 +12,7 @@ return [
     'productName' => 'Product',
     'productVersion' => '1.0',
     'status' => [
-        '0' => ProductModule::t('product', 'Tạm ngưng'),
-        '1' => ProductModule::t('product', 'Hiển thị'),
+        '0' => Yii::t('backend', 'Tạm ngưng'),
+        '1' => Yii::t('backend', 'Hiển thị'),
     ],
 ];

@@ -63,14 +63,14 @@ class ProductImage extends ProductImageTable
     public function attributeLabels()
     {
         return [
-            'id' => ProductModule::t('product', 'ID'),
-            'product_id' => ProductModule::t('product', 'Product ID'),
-            'image_url' => ProductModule::t('product', 'Image Url'),
-            'status' => ProductModule::t('product', 'Status'),
-            'created_at' => ProductModule::t('product', 'Created At'),
-            'updated_at' => ProductModule::t('product', 'Updated At'),
-            'created_by' => ProductModule::t('product', 'Created By'),
-            'updated_by' => ProductModule::t('product', 'Updated By'),
+            'id' => Yii::t('backend', 'ID'),
+            'product_id' => Yii::t('backend', 'Product ID'),
+            'image_url' => Yii::t('backend', 'Image Url'),
+            'status' => Yii::t('backend', 'Status'),
+            'created_at' => Yii::t('backend', 'Created At'),
+            'updated_at' => Yii::t('backend', 'Updated At'),
+            'created_by' => Yii::t('backend', 'Created By'),
+            'updated_by' => Yii::t('backend', 'Updated By'),
         ];
     }
 

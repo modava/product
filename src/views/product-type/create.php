@@ -6,9 +6,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model modava\product\models\ProductType */
 
-$this->title = ProductModule::t('product', 'Create');
-$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['/product']];
-$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product type'), 'url' => ['index']];
+$this->title = Yii::t('backend', 'Create');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Product'), 'url' => ['/product']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Product type'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="container-fluid px-xxl-25 px-xl-10">

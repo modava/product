@@ -333,7 +333,7 @@ class ProductController extends MyProductController
             return $model;
         }
 
-        throw new NotFoundHttpException(ProductModule::t('product', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('backend', 'The requested page does not exist.'));
     }
 
     protected function findModelImage($id)
@@ -342,7 +342,7 @@ class ProductController extends MyProductController
             return $model;
         }
 
-        throw new NotFoundHttpException(ProductModule::t('product', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('backend', 'The requested page does not exist.'));
     }
 
     public function actionLoadCategoriesByLang($lang = null)
@@ -371,7 +371,7 @@ class ProductController extends MyProductController
         }
         return [
             'code' => 403,
-            'data' => ProductModule::t('product', 'Permission denined!')
+            'data' => Yii::t('backend', 'Permission denined!')
         ];
     }
 }

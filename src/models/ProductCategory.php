@@ -68,21 +68,21 @@ class ProductCategory extends ProductCategoryTable
     public function attributeLabels()
     {
         return [
-            'id' => ProductModule::t('product', 'ID'),
-            'title' => ProductModule::t('product', 'Title'),
-            'slug' => ProductModule::t('product', 'Slug'),
-            'parent_id' => ProductModule::t('product', 'Parent ID'),
-            'image' => ProductModule::t('product', 'Image'),
-            'description' => ProductModule::t('product', 'Description'),
-            'position' => ProductModule::t('product', 'Position'),
-            'ads_pixel' => ProductModule::t('product', 'Ads Pixel'),
-            'ads_session' => ProductModule::t('product', 'Ads Session'),
-            'status' => ProductModule::t('product', 'Status'),
-            'language' => ProductModule::t('product', 'Language'),
-            'created_at' => ProductModule::t('product', 'Created At'),
-            'updated_at' => ProductModule::t('product', 'Updated At'),
-            'created_by' => ProductModule::t('product', 'Created By'),
-            'updated_by' => ProductModule::t('product', 'Updated By'),
+            'id' => Yii::t('backend', 'ID'),
+            'title' => Yii::t('backend', 'Title'),
+            'slug' => Yii::t('backend', 'Slug'),
+            'parent_id' => Yii::t('backend', 'Parent ID'),
+            'image' => Yii::t('backend', 'Image'),
+            'description' => Yii::t('backend', 'Description'),
+            'position' => Yii::t('backend', 'Position'),
+            'ads_pixel' => Yii::t('backend', 'Ads Pixel'),
+            'ads_session' => Yii::t('backend', 'Ads Session'),
+            'status' => Yii::t('backend', 'Status'),
+            'language' => Yii::t('backend', 'Language'),
+            'created_at' => Yii::t('backend', 'Created At'),
+            'updated_at' => Yii::t('backend', 'Updated At'),
+            'created_by' => Yii::t('backend', 'Created By'),
+            'updated_by' => Yii::t('backend', 'Updated By'),
         ];
     }
 

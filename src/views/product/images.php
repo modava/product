@@ -10,9 +10,9 @@ use modava\product\models\ProductImage;
 /* @var $model modava\product\models\Product */
 
 $this->title = 'Product Images: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => ProductModule::t('product', 'Product'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'Product'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = ProductModule::t('product', 'Images');
+$this->params['breadcrumbs'][] = Yii::t('backend', 'Images');
 
 $css = <<< CSS
 .hk-sec-wrapper .hk-gallery a {
@@ -55,8 +55,8 @@ $this->registerCss($css);
                             class="ion ion-md-apps"></span></span><?= Html::encode($this->title) ?>
             </h4>
             <a class="btn btn-outline-light" href="<?= \yii\helpers\Url::to(['create']); ?>"
-               title="<?= ProductModule::t('product', 'Create'); ?>">
-                <i class="fa fa-plus"></i> <?= ProductModule::t('product', 'Create'); ?></a>
+               title="<?= Yii::t('backend', 'Create'); ?>">
+                <i class="fa fa-plus"></i> <?= Yii::t('backend', 'Create'); ?></a>
         </div>
         <!-- /Title -->
 
@@ -96,7 +96,7 @@ $this->registerCss($css);
                                 'model' => $model,
                                 'attribute' => 'iptImages',
                                 'path' => $path,
-                                'label' => ProductModule::t('product', 'Hình ảnh') . ': ' . Yii::$app->params['product-size'],
+                                'label' => Yii::t('backend', 'Hình ảnh') . ': ' . Yii::$app->params['product-size'],
                             ]); ?>
                         </div>
                     </div>

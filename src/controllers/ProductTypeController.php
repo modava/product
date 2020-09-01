@@ -212,6 +212,6 @@ class ProductTypeController extends MyProductController
             return $model;
         }
 
-        throw new NotFoundHttpException(ProductModule::t('product', 'The requested page does not exist.'));
+        throw new NotFoundHttpException(Yii::t('backend', 'The requested page does not exist.'));
     }
 }

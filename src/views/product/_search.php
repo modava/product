@@ -63,8 +63,8 @@ use yii\widgets\ActiveForm;
     <?php // echo $form->field($model, 'updated_by') ?>
 
     <div class="form-group">
-        <?= Html::submitButton(\modava\product\ProductModule::t('product', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton(\modava\product\ProductModule::t('product', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>
+        <?= Html::submitButton(\modava\product\Yii::t('backend', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton(\modava\product\Yii::t('backend', 'Reset'), ['class' => 'btn btn-outline-secondary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -25,8 +25,8 @@ use unclead\multipleinput\MultipleInput;
             </div>
             <div class="col-4">
                 <?= $form->field($model, 'language')
-                    ->dropDownList(Yii::$app->params['availableLocales'], ['prompt' => ProductModule::t('product', 'Chọn ngôn ngữ...')])
-                    ->label(ProductModule::t('product', 'Ngôn ngữ')) ?>
+                    ->dropDownList(Yii::$app->params['availableLocales'], ['prompt' => Yii::t('backend', 'Chọn ngôn ngữ...')])
+                    ->label(Yii::t('backend', 'Ngôn ngữ')) ?>
             </div>
         </div>
 
@@ -74,13 +74,13 @@ use unclead\multipleinput\MultipleInput;
                         [
                             'name' => 'product_tech',
                             'type' => 'dropDownList',
-                            'title' => ProductModule::t('product', 'Thuộc tính sản phẩm'),
+                            'title' => Yii::t('backend', 'Thuộc tính sản phẩm'),
                             'defaultValue' => 1,
                             'items' => Yii::$app->params['product_tech'],
                         ],
                         [
                             'name' => 'value',
-                            'title' => ProductModule::t('product', 'Giá trị'),
+                            'title' => Yii::t('backend', 'Giá trị'),
                             'enableError' => true,
                             'options' => [
                                 'class' => 'input-priority'
@@ -100,7 +100,7 @@ use unclead\multipleinput\MultipleInput;
                     'model' => $model,
                     'attribute' => 'image',
                     'path' => $path,
-                    'label' => ProductModule::t('product', 'Hình ảnh') . ': ' . Yii::$app->params['product-size'],
+                    'label' => Yii::t('backend', 'Hình ảnh') . ': ' . Yii::$app->params['product-size'],
                 ]); ?>
             </div>
         </div>
@@ -112,7 +112,7 @@ use unclead\multipleinput\MultipleInput;
         <?= $form->field($model, 'status')->checkbox() ?>
 
         <div class="form-group">
-            <?= Html::submitButton(ProductModule::t('product', 'Save'), ['class' => 'btn btn-success']) ?>
+            <?= Html::submitButton(Yii::t('backend', 'Save'), ['class' => 'btn btn-success']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>
