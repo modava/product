@@ -2,8 +2,8 @@
 
 namespace modava\product\models\table;
 
+use backend\components\MyModel;
 use modava\product\models\ProductCategory;
-use modava\product\models\ProductImage;
 use modava\product\models\ProductType;
 use modava\product\models\query\ProductQuery;
 use Yii;
@@ -37,7 +37,7 @@ use Yii;
  * @property int|null $updated_by
  *
  */
-class ProductTable extends \yii\db\ActiveRecord
+class ProductTable extends MyModel
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_DISABLED = 0;

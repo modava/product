@@ -21,12 +21,25 @@ use unclead\multipleinput\MultipleInput;
 
         <div class="row">
             <div class="col-8">
-                <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                <?= $form->field($model, 'title')->textInput(['maxlength' => true, 'class' => 'form-control product-title']) ?>
             </div>
             <div class="col-4">
                 <?= $form->field($model, 'language')
                     ->dropDownList(Yii::$app->params['availableLocales'], ['prompt' => Yii::t('backend', 'Chọn ngôn ngữ...')])
                     ->label(Yii::t('backend', 'Ngôn ngữ')) ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <?= $form->field($model, 'slug', [
+                    'options' => [
+                        'class' => 'form-group slug-content',
+                        'style' => 'display: ' . ($model->title != null || $model->slug != null ? 'block' : 'none')
+                    ]
+                ])->textInput([
+                    'maxlength' => true,
+                    'class' => 'form-control slug'
+                ]) ?>
             </div>
         </div>
 
@@ -57,7 +70,7 @@ use unclead\multipleinput\MultipleInput;
         </div>
 
 
-        <?= $form->field($model, 'description')->textarea(['rows'=> '6']) ?>
+        <?= $form->field($model, 'description')->textarea(['rows' => '6']) ?>
 
         <?= $form->field($model, 'content')->widget(\modava\tiny\TinyMce::class, [
             'options' => ['rows' => 10],
@@ -120,6 +133,7 @@ use unclead\multipleinput\MultipleInput;
 <?php
 $urlLoadCategories = Url::toRoute(['load-categories-by-lang']);
 $urlLoadTypes = Url::toRoute(['load-types-by-lang']);
+$urlGetSlug = Url::toRoute(['generate-slug', 'id' => $model->primaryKey]);
 $script = <<< JS
 function loadDataByLang(url, lang){
     return new Promise((resolve) => {
@@ -137,7 +151,30 @@ function loadDataByLang(url, lang){
         });
     });
 }
-$('body').on('change', '#product-language', async function(){
+$('body').on('change paste', '.product-title', function(){
+    var title = $(this).val() || null;
+    if(title !== null){
+        $.ajax({
+            type: 'POST',
+            url: '$urlGetSlug',
+            dataType: 'json',
+            data: {
+                title: title
+            }
+        }).done(res => {
+            if(res.code === 200){
+                $('.slug').val(res.slug);
+            } else {
+                console.log(res.msg);
+            }
+        }).fail(f => {
+            console.log('Get slug failed', f);
+        });
+        $('.slug-content').slideDown();
+    } else {
+        $('.slug-content').slideUp();
+    }
+}).on('change', '#product-language', async function(){
     var v = $(this).val(),
         categories, types;
     $('#product-category_id, #product-type_id').find('option[value!=""]').remove();

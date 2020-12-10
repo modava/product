@@ -2,6 +2,7 @@
 
 namespace modava\product\models\table;
 
+use backend\components\MyModel;
 use Yii;
 
 /**
@@ -17,7 +18,7 @@ use Yii;
  * @property int|null $updated_by
  *
  */
-class ProductImageTable extends \yii\db\ActiveRecord
+class ProductImageTable extends MyModel
 {
     /**
      * {@inheritdoc}

@@ -336,6 +336,25 @@ class ProductController extends MyProductController
         throw new NotFoundHttpException(Yii::t('backend', 'The requested page does not exist.'));
     }
 
+    public function actionGenerateSlug($id = null)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (Yii::$app->request->isAjax) {
+            $model = new Product();
+            if ($id != null) $model = $this->findModel($id);
+            $model->setAttribute('title', Yii::$app->request->post('title'));
+            $model->validate();
+            return [
+                'code' => 200,
+                'slug' => $model->slug,
+            ];
+        }
+        return [
+            'code' => 403,
+            'msg' => 'Không có quyền truy cập chức năng này'
+        ];
+    }
+
     protected function findModelImage($id)
     {
         if (($model = ProductImage::findOne($id)) !== null) {

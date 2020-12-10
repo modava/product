@@ -2,6 +2,7 @@
 
 namespace modava\product\models\table;
 
+use backend\components\MyModel;
 use cheatsheet\Time;
 use modava\product\models\query\ProductTypeQuery;
 use Yii;
@@ -27,7 +28,7 @@ use Yii;
  * @property User $createdBy
  * @property User $updatedBy
  */
-class ProductTypeTable extends \yii\db\ActiveRecord
+class ProductTypeTable extends MyModel
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_DISABLED = 0;
